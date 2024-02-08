@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NagoyaMeshi管理者画面</title>
+        <meta name="description" content="管理者画面">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../css/style.css">
+
+        <!-- FontAwesome -->
+        <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+
+
+        <!-- ヘッダー -->
+        <header class="header">
+          <div class="header-container">
+              <h1><a href="">NagoyaMeshi</a></h1>
+              <div class="button-container">
+                <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>
+                <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>
+              </div>
+            </div>
+        </header>
+
+        <!-- メイン -->
+        <main>
+          <!-- admin-top -->
+          <div class="contents-container">
+            <div class="contents-header">
+                <h2>管理者画面</h2>
+              </div>
+              <!-- 会員情報 -->
+              <div class="content-item">
+                <div class="title-side">
+                  <h3>会員情報</h3>
+                </div>
+                <div class="item-body">
+                  <form id="form1" action="自分のサイトURL">
+                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
+                    <input id="sbtn" type="submit" value="検索" />
+                  </form>
+                  <div class="button-container">
+                    <button class="button" type="button">一覧</button>
+                    <button class="button" type="button">登録</button>
+                  </div>
+                </div>
+              </div>
+              <!-- 店舗情報 -->
+              <div class="content-item">
+                <div class="title-side">
+                  <h3>店舗情報</h3>
+                </div>
+                <div class="item-body">
+                  <form id="form1" action="自分のサイトURL">
+                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
+                    <input id="sbtn" type="submit" value="検索" />
+                  </form>
+                  <div class="button-container">
+                    <button class="button" type="button">一覧</button>
+                    <button class="button" type="button">登録</button>
+                  </div>
+                </div>
+              </div>
+              <!-- カテゴリー情報 -->
+              <div class="content-item">
+                <div class="title-side">
+                  <h3>カテゴリー情報</h3>
+                </div>
+                <div class="item-body">
+                  <form id="form1" action="自分のサイトURL">
+                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
+                    <input id="sbtn" type="submit" value="検索" />
+                  </form>
+                  <div class="button-container">
+                    <button class="button" type="button">一覧</button>
+                    <button class="button" type="button">登録</button>
+                  </div>
+                </div>
+              </div>
+              <!-- 予約一覧 -->
+              <div class="content-item">
+                <div class="title-side">
+                  <h3>予約一覧</h3>
+                </div>
+                <div class="item-body">
+                  <form id="form1" action="自分のサイトURL">
+                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
+                    <input id="sbtn" type="submit" value="検索" />
+                  </form>
+                  <div class="button-container">
+                    <button class="button" type="button">一覧</button>
+                  </div>
+                </div>
+              </div>  
+
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer class="footer">
+           <p>NagoyaMeshi</p>
+           <small>©NagoyaMeshi</small>
+        </footer>
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+
+    </body>
+</html>

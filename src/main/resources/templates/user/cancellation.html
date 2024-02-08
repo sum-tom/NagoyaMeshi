@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>cancellation</title>
+        <meta name="description" content="有料会員解約">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../css/style.css">
+
+        <!-- FontAwesome -->
+        <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+
+
+        <!-- ヘッダー -->
+        <header class="header">
+          <div class="header-container">
+              <h1><a href="">NagoyaMeshi</a></h1>
+              <div class="button-container">
+                <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>
+                <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>
+              </div>
+            </div>
+        </header>
+
+        <!-- メイン -->
+        <main>
+          <!--breadcrumb--> 
+          <nav>
+            <ol class="breadcrumb">
+              <li><a href="/top.html">ホーム</a></li>
+              <li>有料会員解約</li>
+            </ol>
+          </nav>
+
+            <!-- cancellation -->
+            <div class="contents-container">
+
+              <div class="contents-header">
+                <h2>有料会員解約</h2>
+              </div>
+              <h3>本当に解約してもよろしいですか？</h3>
+              <ul>
+                <li>
+                  <p class="text">当日の2時間前までならいつでも予約可能</p>
+                </li>
+                <li>
+                  <p class="text">店舗をお好きなだけお気に入りに追加可能</p>
+                </li>
+                <li>
+                  <p class="text">レビューを全件閲覧可能</p>
+                </li>
+                <li>
+                  <p class="text">レビューを投稿可能</p>
+                </li>
+              </ul>
+                
+              <div class="button-container">
+                <button class="button" type="button" onclick="location.href=''">解約</button>
+              </div>
+
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer class="footer">
+           <p>NagoyaMeshi</p>
+           <small>©NagoyaMeshi</small>
+        </footer>
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+
+    </body>
+</html>

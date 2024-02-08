@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MemberList</title>
+        <meta name="description" content="会員一覧">
+
+        <!-- CSS -->
+        <link rel="stylesheet" href="../css/style.css">
+        <!-- FontAwesome -->
+        <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>
+
+    </head>
+    <body>
+
+
+        <!-- ヘッダー -->
+        <header class="header">
+          <div class="header-container">
+              <h1><a href="">NagoyaMeshi</a></h1>
+              <div class="button-container">
+                <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>
+                <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>
+              </div>
+            </div>
+        </header>
+
+        <!-- メイン -->
+        <main>
+        <!--breadcrumb--> 
+          <nav>
+            <ol class="breadcrumb">
+              <li><a href="/admin-top.html">ホーム</a></li>
+              <li>会員一覧</li>
+            </ol>
+          </nav>
+          <!-- MemberList -->
+            <div class="contents-container">
+              <div class="contents-header">
+                <h2>会員一覧</h2>
+              </div>
+
+              <table class="table">
+                <thead>
+                    <tr>                            
+                        <th scope="col">No.</th>
+                        <th scope="col">名前</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead> 
+
+                <tbody>                
+                      <tr>
+                        <td>XXXX</td>
+                        <td>サンプルテキスト</td>
+                        <td><button class="button" type="button" onclick="location.href=''">編集</button></td>
+                        <td><button class="button" type="button" onclick="location.href=''">削除</button></td>
+                      </tr>    
+                </tbody>
+            </table>   
+
+            </div>
+        </main>
+
+        <!-- フッター -->
+        <footer class="footer">
+           <p>NagoyaMeshi</p>
+           <small>©NagoyaMeshi</small>
+        </footer>
+
+        <!-- JS -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+
+    </body>
+</html>

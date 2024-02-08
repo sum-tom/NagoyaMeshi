@@ -1,0 +1,52 @@
+//
+//favorite
+//
+
+//favorite
+.favorite{
+  .favorite-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .section-header{ 
+      h2{
+        height: 50px;
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+      }
+    }
+    ul{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-top: 1px solid $font-color;
+      border-bottom: 1px solid $font-color;
+      padding: 20px 0;
+      li{
+        display: flex;
+        height: 50px;
+        width: 490px;
+        border-bottom: 1px solid $font-color;
+        font-size: 18px;
+        justify-content: space-around;
+        flex-direction: row;
+        align-items: center;
+          .title{
+            font-weight: bold;
+          }
+          .button{
+            font-size: 9px;
+            width: 50px;
+            height: 15px;
+            border-radius: 5px;
+            border: 0;
+            text-align: center;
+            color: $white;
+            background-color: $main-color;
+          }
+        }
+    }
+    
+  }
+}

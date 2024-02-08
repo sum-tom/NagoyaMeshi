@@ -1,0 +1,40 @@
+//
+// ヘッダーのスタイル
+//
+
+
+
+// ヘッダー
+.header{
+  padding: 0 20px;
+  height: 70px;
+  max-width: 1200px;
+  margin: 0 auto;
+  .header-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+      h1{
+        font-family: "Noto Sans JP";
+        font-size: 25px;
+        font-weight: bold;
+        color: $main-color;
+      }
+      .button{
+        height: 25px;
+        width: 100px;
+        border-radius: 10px;
+        border: 0;
+        font-size: 12px;
+        text-align: center;
+        color: $white;
+        background-color: $main-color;
+        transition: .3s;
+        cursor: pointer;
+      }
+      .button:hover {
+        opacity: 0.6;
+      }
+  }
+}
