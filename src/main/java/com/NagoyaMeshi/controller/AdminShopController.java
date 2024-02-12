@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.NagoyaMeshi.entity.Shop;
@@ -33,10 +34,18 @@ public class AdminShopController {
     }	
 	
 	@GetMapping
-	public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {
-		 Page<Shop> shopPage = shopRepository.findAll(pageable);       
+	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {
+		 Page<Shop> shopPage;
         
-        model.addAttribute("shopPage", shopPage);             
+		 if (keyword != null && !keyword.isEmpty()) {
+			 shopPage = shopRepository.findByNameLike("%" + keyword + "%", pageable);                
+         } else {
+        	 shopPage = shopRepository.findAll(pageable);
+         }  
+		 
+        model.addAttribute("shopPage", shopPage); 
+        model.addAttribute("keyword", keyword);
+        
         
         return "/admin/shop/admin-shop-list";
     }  

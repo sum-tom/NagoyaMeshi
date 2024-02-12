@@ -39,6 +39,14 @@
             <li>店舗一覧</li>
           </ol>
         </nav>
+        
+        <form method="get" th:action="@{/admin/shop}" class="mb-3">
+             <div class="input-group">
+                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="店舗名">
+                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+             </div>               
+         </form>          
+        
       <!-- ShopList -->
           <div class="contents-container">
               <div class="contents-header">
@@ -93,15 +101,15 @@
                          <ul class="pagination">
                              <li class="page-item">
                                  <span th:if="${shopPage.isFirst()}" >前</span>
-                                 <a th:unless="${shopPage.isFirst()}" th:href="@{/admin/shop(page = ${shopPage.getNumber() - 1})}" >前</a>
+                                 <a th:unless="${shopPage.isFirst()}" th:href="@{/admin/shop(page = ${shopPage.getNumber() - 1}, keyword = ${keyword})}">前</a>
                              </li>
                              <li th:each="i : ${#numbers.sequence(0, shopPage.getTotalPages() - 1)}" >
                                  <span th:if="${i == shopPage.getNumber()}"  th:text="${i + 1}"></span>
-                                 <a th:unless="${i == shopPage.getNumber()}" th:href="@{/admin/shop(page = ${i})}"  th:text="${i + 1}"></a>
+                                 <a th:unless="${i == shopPage.getNumber()}" th:href="@{/admin/shop(page = ${i}, keyword = ${keyword})}"  th:text="${i + 1}"></a>
                              </li>
                              <li class="page-item">                        
                                  <span th:if="${shopPage.isLast()}" >次</span>
-                                 <a th:unless="${shopPage.isLast()}" th:href="@{/admin/shop(page = ${shopPage.getNumber() + 1})}" >次</a>
+                                 <a th:unless="${shopPage.isLast()}" th:href="@{/admin/shop(page = ${shopPage.getNumber() + 1}, keyword = ${keyword})}" >次</a>
                              </li>
                          </ul>
                      </nav> 

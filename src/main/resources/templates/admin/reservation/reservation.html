@@ -53,8 +53,8 @@
                     </tr>
                 </thead> 
                 <tbody>                
-                      <tr th:each="reservation : ${reservationPage}"> 
-                        <td th:text="${reservation.getShop()}"></td>  
+                      <tr th:each="reservation:${reservationPage}"> 
+                        <td th:text="${reservation.getShop().getName()}"></td>  
                         <td th:text="${reservation.getReservationTime()}"></td>
                         <td th:text="${reservation.getReservationDate()}"></td>
                         <td><a href="#" class="button" data-bs-toggle="modal" th:data-bs-target="${'#deleteReservationModal' + reservation.getId()}">削除</a></td>

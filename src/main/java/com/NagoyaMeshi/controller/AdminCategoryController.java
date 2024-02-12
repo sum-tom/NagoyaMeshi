@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.NagoyaMeshi.entity.Category;
@@ -33,11 +34,17 @@ public class AdminCategoryController {
 }
 		
 	 @GetMapping
-	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {
-		 Page<Category> categoryPage = categoryRepository.findAll(pageable);       
+	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {
+		 Page<Category> categoryPage;
+		 
+		 if (keyword != null && !keyword.isEmpty()) {
+			 categoryPage = categoryRepository.findByNameLike("%" + keyword + "%", pageable);                
+         } else {
+        	 categoryPage = categoryRepository.findAll(pageable);
+         }  
 		 
 		 model.addAttribute("categoryPage", categoryPage);   
-		 
+		 model.addAttribute("keyword", keyword);
 	        return "/admin/category/category-list";
 	    } 
 	 

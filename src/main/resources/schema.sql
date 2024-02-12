@@ -89,4 +89,13 @@ CREATE TABLE IF NOT EXISTS admin (
      
  );
  
+ CREATE TABLE IF NOT EXISTS favorites  (
+     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     shop_id INT NOT NULL,
+     user_id INT NOT NULL,
+     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+     FOREIGN KEY (shop_id) REFERENCES shops (id),
+     FOREIGN KEY (user_id) REFERENCES users (id)
+ );
+ 
  

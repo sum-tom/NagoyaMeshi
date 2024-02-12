@@ -39,6 +39,14 @@
             <li>カテゴリー一覧</li>
           </ol>
         </nav>
+        
+        <form method="get" th:action="@{/admin/category}" class="mb-3">
+	 		<div class="input-group">
+                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="カテゴリー名">
+                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+             </div>               
+         </form>  
+        
         <!-- CategoryList -->
           <div class="contents-container">
               <div class="contents-header">
@@ -89,15 +97,15 @@
                          <ul class="pagination">
                              <li class="page-item">
                                  <span th:if="${categoryPage.isFirst()}" >前</span>
-                                 <a th:unless="${categoryPage.isFirst()}" th:href="@{/admin/category(page = ${categoryPage.getNumber() - 1})}" >前</a>
+                                 <a th:unless="${categoryPage.isFirst()}" th:href="@{/admin/category(page = ${categoryPage.getNumber() - 1}, keyword = ${keyword})}" >前</a>
                              </li>
                              <li th:each="i : ${#numbers.sequence(0, categoryPage.getTotalPages() - 1)}" >
                                  <span th:if="${i == categoryPage.getNumber()}"  th:text="${i + 1}"></span>
-                                 <a th:unless="${i == categoryPage.getNumber()}" th:href="@{/admin/category(page = ${i})}"  th:text="${i + 1}"></a>
+                                 <a th:unless="${i == categoryPage.getNumber()}" th:href="@{/admin/category(page = ${i}, keyword = ${keyword})}"  th:text="${i + 1}"></a>
                              </li>
                              <li class="page-item">                        
                                  <span th:if="${categoryPage.isLast()}" >次</span>
-                                 <a th:unless="${categoryPage.isLast()}" th:href="@{/admin/category(page = ${categoryPage.getNumber() + 1})}" >次</a>
+                                 <a th:unless="${categoryPage.isLast()}" th:href="@{/admin/category(page = ${categoryPage.getNumber() + 1}, keyword = ${keyword})}" >次</a>
                              </li>
                          </ul>
                      </nav> 
