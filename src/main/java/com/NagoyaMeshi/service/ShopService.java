@@ -58,9 +58,7 @@ public class ShopService {
 	
 	@Transactional
 	public void update(ShopEditForm shopEditForm) {
-		Shop shop = new Shop(); 
-		
-		
+		Shop shop = shopRepository.getReferenceById(shopEditForm.getId());
 	    MultipartFile imageFile = shopEditForm.getImageFile();
 	    
 		    if (!imageFile.isEmpty()) {

@@ -26,27 +26,36 @@ INSERT IGNORE INTO shops (id, category_id,name, image_name, description, price_u
 
 
 --categories
-INSERT IGNORE INTO categories(id,name)VALUES(1,'サンプル');
-INSERT IGNORE INTO categories(id,name)VALUES(2,'中華');
-INSERT IGNORE INTO categories(id,name)VALUES(3,'和食');
-INSERT IGNORE INTO categories(id,name)VALUES(4,'麺類');
-INSERT IGNORE INTO categories(id,name)VALUES(5,'イタリアン');
-INSERT IGNORE INTO categories(id,name)VALUES(6,'sample');
+INSERT IGNORE INTO categories (id,name) VALUES (1,'サンプル');
+INSERT IGNORE INTO categories (id,name) VALUES (2,'中華');
+INSERT IGNORE INTO categories (id,name) VALUES (3,'和食');
+INSERT IGNORE INTO categories (id,name) VALUES (4,'麺類');
+INSERT IGNORE INTO categories (id,name) VALUES (5,'イタリアン');
+INSERT IGNORE INTO categories (id,name) VALUES (6,'sample');
 
 
 --reservations
-INSERT IGNORE INTO reservations (id,shop_id, user_id, reservation_time, reservation_date, number_of_people) VALUES(1,'1','1','20:00' ,'2024-02-09', 2);
-INSERT IGNORE INTO reservations (id,shop_id, user_id, reservation_time, reservation_date, number_of_people) VALUES(2,'2','1','20:00' ,'2024-02-10', 2);
-INSERT IGNORE INTO reservations (id,shop_id, user_id, reservation_time, reservation_date, number_of_people) VALUES(3,'3','1','20:00' ,'2024-02-11', 2);
-INSERT IGNORE INTO reservations (id,shop_id, user_id, reservation_time, reservation_date, number_of_people) VALUES(4,'4','1','20:00' ,'2024-02-12', 2);
-INSERT IGNORE INTO reservations (id,shop_id, user_id, reservation_time, reservation_date, number_of_people) VALUES(5,'5','1','20:00' ,'2024-02-13', 2);
+INSERT IGNORE INTO reservations (id, shop_id, user_id, reservation_time, reservation_date, number_of_people)
+VALUES (1, 1, 1, '20:00', '2024-02-09', 2);
+
+INSERT IGNORE INTO reservations (id, shop_id, user_id, reservation_time, reservation_date, number_of_people)
+VALUES (2, 2, 1, '20:00', '2024-02-10', 2);
+
+INSERT IGNORE INTO reservations (id, shop_id, user_id, reservation_time, reservation_date, number_of_people)
+VALUES (3, 3, 1, '20:00', '2024-02-11', 2);
+
+INSERT IGNORE INTO reservations (id, shop_id, user_id, reservation_time, reservation_date, number_of_people)
+VALUES (4, 4, 1, '20:00', '2024-02-12', 2);
+
+INSERT IGNORE INTO reservations (id, shop_id, user_id, reservation_time, reservation_date, number_of_people)
+VALUES (5, 5, 1, '20:00', '2024-02-13', 2);
 
 
 --favorites
-INSERT IGNORE INTO favorites (id,shop_id, user_id) VALUES(1,'1','1');
-INSERT IGNORE INTO favorites (id,shop_id, user_id) VALUES(2,'2','1');
-INSERT IGNORE INTO favorites (id,shop_id, user_id) VALUES(3,'3','1');
+INSERT IGNORE INTO favorites (id,shop_id, user_id) VALUES (1,'1','1');
+INSERT IGNORE INTO favorites (id,shop_id, user_id) VALUES (2,'2','1');
+INSERT IGNORE INTO favorites (id,shop_id, user_id) VALUES (3,'3','1');
 
 
 --reviews
-INSERT IGNORE INTO reviews(id,shop_id, user_id, review_rating, review_comment) VALUES(1,'1','1','★・★・★','サンプルテキスト');
+INSERT IGNORE INTO reviews (id,shop_id, user_id, review_rating, review_comment) VALUES (1,'1','1','★・★・★','サンプルテキスト');

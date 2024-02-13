@@ -19,7 +19,7 @@
         <!-- ヘッダー -->
         <header class="header">
           <div class="header-container">
-              <h1><a href="">NagoyaMeshi</a></h1>
+              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>
               <div class="button-container">
                 <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>
                 <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>
@@ -40,14 +40,19 @@
                   <h3>会員情報</h3>
                 </div>
                 <div class="item-body">
-                  <form id="form1" action="自分のサイトURL">
-                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
-                    <input id="sbtn" type="submit" value="検索" />
-                  </form>
+					
+                  	<form method="get" th:action="@{/admin/}" class="mb-3">
+			             <div class="input-group">
+			                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="店舗名">
+			                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+			             </div>               
+	         		</form> 
+	         		
                   <div class="button-container">
-                    <button class="button" type="button">一覧</button>
-                    <button class="button" type="button">登録</button>
+                    <button class="button" type="button"><a class="button"th:href="@{admin/shop}">一覧</a></button>
+                    <button class="button" type="button"><a class="button"th:href="@{admin/shop/register}">登録</a></button>
                   </div>
+                  
                 </div>
               </div>
               <!-- 店舗情報 -->
@@ -56,14 +61,19 @@
                   <h3>店舗情報</h3>
                 </div>
                 <div class="item-body">
-                  <form id="form1" action="自分のサイトURL">
-                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
-                    <input id="sbtn" type="submit" value="検索" />
-                  </form>
+					
+					<form method="get" th:action="@{/admin/shop}" class="mb-3">
+			             <div class="input-group">
+			                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="店舗名">
+			                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+			             </div>               
+	         		</form> 
+	         		 
                   <div class="button-container">
-                    <button class="button" type="button">一覧</button>
-                    <button class="button" type="button">登録</button>
+                    <button class="button" type="button"><a class="button"th:href="@{admin/shop}">一覧</a></button>
+                    <button class="button" type="button"><a class="button"th:href="@{admin/shop/register}">登録</a></button>
                   </div>
+                  
                 </div>
               </div>
               <!-- カテゴリー情報 -->
@@ -72,14 +82,19 @@
                   <h3>カテゴリー情報</h3>
                 </div>
                 <div class="item-body">
-                  <form id="form1" action="自分のサイトURL">
-                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
-                    <input id="sbtn" type="submit" value="検索" />
-                  </form>
+					
+                  <form method="get" th:action="@{/admin/category}" class="mb-3">
+		             <div class="input-group">
+		                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="カテゴリー名">
+		                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+		             </div>               
+       			 </form> 
+                  
                   <div class="button-container">
-                    <button class="button" type="button">一覧</button>
-                    <button class="button" type="button">登録</button>
+                    <button class="button" type="button"><a class="button"th:href="@{admin/category}">一覧</a></button>
+                    <button class="button" type="button"><a class="button"th:href="@{admin/category/register}">登録</a></button>
                   </div>
+                  
                 </div>
               </div>
               <!-- 予約一覧 -->
@@ -88,12 +103,16 @@
                   <h3>予約一覧</h3>
                 </div>
                 <div class="item-body">
-                  <form id="form1" action="自分のサイトURL">
-                    <input id="sbox"   name="s" type="text" placeholder="キーワードを入力" />
-                    <input id="sbtn" type="submit" value="検索" />
-                  </form>
+					
+                 	<form method="get" th:action="@{/admin/reservation}" class="mb-3">
+			             <div class="input-group">
+			                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="店舗名">
+			                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+			             </div>               
+	         		</form> 
+	         		
                   <div class="button-container">
-                    <button class="button" type="button">一覧</button>
+                    <button class="button" type="button"><a class="button"th:href="@{admin/reservation}">一覧</a></button>
                   </div>
                 </div>
               </div>  

@@ -30,7 +30,7 @@ private final CategoryRepository categoryRepository;
     
     @Transactional
 	public void update(CategoryEditForm categoryEditForm) {
-    	Category category = new Category(); 
+    	Category category = categoryRepository.getReferenceById(categoryEditForm.getId());
 		
     
     	category.setName(categoryEditForm.getName());                
