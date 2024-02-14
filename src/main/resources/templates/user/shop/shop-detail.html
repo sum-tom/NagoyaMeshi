@@ -40,42 +40,46 @@
             <!-- ShopDetail -->
             <div class="contents-container">
               <div class="contents-header">
-                <h2>店舗名</h2>
+                <h2 th:text="${shop.getName()}"></h2>
               </div>
-              <img src="..\images\image4.jpg">
-
+              <img th:if="${shop.getImageName()}" th:src="@{/storage/__${shop.getImageName()}__}" alt="画像">
+               <img th:unless="${shop.getImageName()}" th:src="@{/images/noImage.png}"  alt="NO IMAGE">
               <ul>
                 <li>
                   <span class="title">店舗名</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getName()}"></p>
                 </li>
                 <li>
                   <span class="title">説明</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getDescription()}"></p>
                 </li>
                 <li>
                   <span class="title">価格帯</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getPriceLowerLimit()}"></p>
+                  <p>～</p>
+                  <p class="text" th:text="${shop.getPriceUpperLimit()}"></p>
                 </li>
                 <li>
                   <span class="title">郵便番号</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getPostalCode()}"></p>
                 </li>
                 <li>
                   <span class="title">住所</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getAddress()}"></p>
                 </li>
                 <li>
                   <span class="title">営業時間</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getOpeningHours()}"></p>
+                  <p>～</p>
+                  <p class="text" th:text="${shop.getClosingHours()}"></p>
                 </li>
                 <li>
                   <span class="title">定休日</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getRegularHoliday()}"></p>
                 </li>
                 <li>
                   <span class="title">カテゴリー</span>
-                  <p class="text">サンプルテキスト</p>
+                  <p class="text" th:text="${shop.getCategory().getName}"></p>
                 </li>
                 <li>
                   <span class="title">レビュー</span>

@@ -18,7 +18,7 @@
         <!-- ヘッダー -->
         <header class="header">
           <div class="header-container">
-              <h1><a href="">NagoyaMeshi</a></h1>
+              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>
               <div class="button-container">
                 <button class="button" type="button">ログイン</button>
                 <button class="button" type="button">会員登録</button>
@@ -31,7 +31,7 @@
         <!--breadcrumb--> 
           <nav>
             <ol class="breadcrumb">
-              <li><a href="/admin-top.html">ホーム</a></li>
+              <li><a th:href="@{admin/}">ホーム</a></li>
               <li>店舗編集</li>
             </ol>
           </nav>

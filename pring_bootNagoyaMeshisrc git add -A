@@ -1,0 +1,609 @@
+warning: in the working copy of 'src/main/java/com/NagoyaMeshi/controller/UserShopController.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/NagoyaMeshi/repository/ShopRepository.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/java/com/NagoyaMeshi/repository/UserRepository.java', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/main/resources/schema.sql', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/src/main/java/com/NagoyaMeshi/controller/UserShopController.java b/src/main/java/com/NagoyaMeshi/controller/UserShopController.java[m
+[1mindex 914f624..a1d69cc 100644[m
+[1m--- a/src/main/java/com/NagoyaMeshi/controller/UserShopController.java[m
+[1m+++ b/src/main/java/com/NagoyaMeshi/controller/UserShopController.java[m
+[36m@@ -7,6 +7,7 @@[m [mimport org.springframework.data.web.PageableDefault;[m
+ import org.springframework.stereotype.Controller;[m
+ import org.springframework.ui.Model;[m
+ import org.springframework.web.bind.annotation.GetMapping;[m
+[32m+[m[32mimport org.springframework.web.bind.annotation.PathVariable;[m
+ import org.springframework.web.bind.annotation.RequestMapping;[m
+ import org.springframework.web.bind.annotation.RequestParam;[m
+ [m
+[36m@@ -25,8 +26,11 @@[m [mpublic class UserShopController {[m
+ 	    }	[m
+ 	[m
+ 	@GetMapping[m
+[31m-	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {[m
+[31m-		 Page<Shop> shopPage;[m
+[32m+[m	[32m public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,[m[41m [m
+[32m+[m			[41m [m						[32m  @RequestParam(name = "keyword", required = false) String keyword) {[m
+[32m+[m[41m		 [m
+[32m+[m[41m		[m
+[32m+[m		[32mPage<Shop> shopPage;[m
+        [m
+ 		 if (keyword != null && !keyword.isEmpty()) {[m
+ 			 shopPage = shopRepository.findByNameLike("%" + keyword + "%", pageable);                [m
+[36m@@ -36,9 +40,19 @@[m [mpublic class UserShopController {[m
+ 		 [m
+        model.addAttribute("shopPage", shopPage); [m
+        model.addAttribute("keyword", keyword);[m
+[32m+[m[41m      [m
+        [m
+        [m
+        return "/user/shop/shop-list";[m
+    }  [m
+ 	[m
+[32m+[m	[32m@GetMapping("/{id}")[m
+[32m+[m[32m    public String show(@PathVariable(name = "id") Integer id, Model model) {[m
+[32m+[m		[32mShop shop = shopRepository.getReferenceById(id);[m
+[32m+[m[41m        [m
+[32m+[m[32m        model.addAttribute("shop", shop);[m[41m         [m
+[32m+[m[41m        [m
+[32m+[m[32m        return "user/shop-detail";[m
+[32m+[m[32m    }[m[41m    [m
+[32m+[m[41m	[m
+ }[m
+[1mdiff --git a/src/main/java/com/NagoyaMeshi/repository/ShopRepository.java b/src/main/java/com/NagoyaMeshi/repository/ShopRepository.java[m
+[1mindex 08da2d0..b50632b 100644[m
+[1m--- a/src/main/java/com/NagoyaMeshi/repository/ShopRepository.java[m
+[1m+++ b/src/main/java/com/NagoyaMeshi/repository/ShopRepository.java[m
+[36m@@ -7,4 +7,6 @@[m [mimport org.springframework.data.jpa.repository.JpaRepository;[m
+ import com.NagoyaMeshi.entity.Shop;[m
+ public interface ShopRepository extends JpaRepository<Shop,Integer>{[m
+ 	public Page<Shop> findByNameLike(String keyword, Pageable pageable);[m
+[32m+[m[41m	[m
+[32m+[m[41m	[m
+ }[m
+[1mdiff --git a/src/main/java/com/NagoyaMeshi/repository/UserRepository.java b/src/main/java/com/NagoyaMeshi/repository/UserRepository.java[m
+[1mindex b34eaae..f5a9a02 100644[m
+[1m--- a/src/main/java/com/NagoyaMeshi/repository/UserRepository.java[m
+[1m+++ b/src/main/java/com/NagoyaMeshi/repository/UserRepository.java[m
+[36m@@ -3,5 +3,5 @@[m [mimport org.springframework.data.jpa.repository.JpaRepository;[m
+ [m
+ import com.NagoyaMeshi.entity.User;[m
+ public interface UserRepository extends JpaRepository<User, Integer>{[m
+[31m-[m
+[32m+[m	[32mpublic User findByEmail(String email);[m
+ }[m
+[1mdiff --git a/src/main/resources/schema.sql b/src/main/resources/schema.sql[m
+[1mindex 863b54f..d9286ce 100644[m
+[1m--- a/src/main/resources/schema.sql[m
+[1m+++ b/src/main/resources/schema.sql[m
+[36m@@ -1,16 +1,15 @@[m
+[31m-CREATE TABLE IF NOT EXISTS admin ([m
+[32m+[m[32m SET FOREIGN_KEY_CHECKS = 0; -- 外部キー制約を無効にする[m
+[32m+[m[41m [m
+[32m+[m[32m DROP TABLE IF EXISTS admin;[m
+[32m+[m[32m CREATE TABLE IF NOT EXISTS admin ([m
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+      email VARCHAR(255) NOT NULL UNIQUE,[m
+      password VARCHAR(255) NOT NULL,  [m
+      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,[m
+      updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP[m
+  );[m
+[31m- [m
+[31m- CREATE TABLE IF NOT EXISTS roles ([m
+[31m-     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+[31m-     name VARCHAR(50) NOT NULL[m
+[31m- );[m
+ [m
+[32m+[m[32mDROP TABLE IF EXISTS users;[m
+  CREATE TABLE IF NOT EXISTS users ([m
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+      name VARCHAR(50) NOT NULL,[m
+[36m@@ -26,7 +25,41 @@[m [mCREATE TABLE IF NOT EXISTS admin ([m
+      updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,    [m
+      FOREIGN KEY (role_id) REFERENCES roles (id)[m
+  );[m
+[32m+[m
+[32m+[m[32m DROP TABLE IF EXISTS resevations;[m
+[32m+[m[32m  CREATE TABLE IF NOT EXISTS reservations ([m
+[32m+[m[32m     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+[32m+[m[32m     shop_id INT NOT NULL,[m
+[32m+[m[32m     user_id INT NOT NULL,[m
+[32m+[m[32m     reservation_time TIME NOT NULL,[m
+[32m+[m[32m     reservation_date DATE NOT NULL,[m
+[32m+[m[32m     number_of_people INT NOT NULL,[m
+[32m+[m[32m     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,[m
+[32m+[m[32m     FOREIGN KEY (shop_id) REFERENCES shops (id),[m
+[32m+[m[32m     FOREIGN KEY (user_id) REFERENCES users (id)[m
+[32m+[m[32m );[m
+[32m+[m
+[32m+[m[32m DROP TABLE IF EXISTS reviews;[m
+[32m+[m[32m CREATE TABLE IF NOT EXISTS reviews ([m
+[32m+[m[32m     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+[32m+[m[32m     shop_id INT NOT NULL,[m
+[32m+[m[32m     user_id INT NOT NULL,[m
+[32m+[m[32m     review_rating VARCHAR(50) NOT NULL,[m
+[32m+[m[32m     review_comment VARCHAR(50) NOT NULL,[m
+[32m+[m[32m     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,[m
+[32m+[m[32m     FOREIGN KEY (shop_id) REFERENCES shops (id),[m
+[32m+[m[32m     FOREIGN KEY (user_id) REFERENCES users (id)[m
+[32m+[m[41m     [m
+[32m+[m[32m );[m
+[32m+[m[41m  [m
+[32m+[m[41m [m
+[32m+[m[32m DROP TABLE IF EXISTS roles;[m
+[32m+[m[32m CREATE TABLE IF NOT EXISTS roles ([m
+[32m+[m[32m     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+[32m+[m[32m     name VARCHAR(50) NOT NULL[m
+[32m+[m[32m );[m
+  [m
+[32m+[m[32m DROP TABLE IF EXISTS categories;[m
+  CREATE TABLE IF NOT EXISTS categories ([m
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+      name VARCHAR(50) NOT NULL,[m
+[36m@@ -35,6 +68,7 @@[m [mCREATE TABLE IF NOT EXISTS admin ([m
+  );[m
+  [m
+   [m
+[32m+[m[32m DROP TABLE IF EXISTS shops;[m
+  CREATE TABLE IF NOT EXISTS shops ([m
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+      category_id INT NOT NULL,[m
+[36m@@ -54,30 +88,9 @@[m [mCREATE TABLE IF NOT EXISTS admin ([m
+      FOREIGN KEY (category_id) REFERENCES categories (id)[m
+  );[m
+  [m
+[31m- CREATE TABLE IF NOT EXISTS reviews ([m
+[31m-     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+[31m-     shop_id INT NOT NULL,[m
+[31m-     user_id INT NOT NULL,[m
+[31m-     review_rating VARCHAR(50) NOT NULL,[m
+[31m-     review_comment VARCHAR(50) NOT NULL,[m
+[31m-     updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,[m
+[31m-     FOREIGN KEY (shop_id) REFERENCES shops (id),[m
+[31m-     FOREIGN KEY (user_id) REFERENCES users (id)[m
+[31m-     [m
+[31m- );[m
+  [m
+[31m-  CREATE TABLE IF NOT EXISTS reservations ([m
+[31m-     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+[31m-     shop_id INT NOT NULL,[m
+[31m-     user_id INT NOT NULL,[m
+[31m-     reservation_time TIME NOT NULL,[m
+[31m-     reservation_date DATE NOT NULL,[m
+[31m-     number_of_people INT NOT NULL,[m
+[31m-     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,[m
+[31m-     FOREIGN KEY (shop_id) REFERENCES shops (id),[m
+[31m-     FOREIGN KEY (user_id) REFERENCES users (id)[m
+[31m- );[m
+  [m
+[32m+[m[32m DROP TABLE IF EXISTS company;[m
+  CREATE TABLE IF NOT EXISTS company ([m
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+      name VARCHAR(50) NOT NULL,[m
+[36m@@ -89,6 +102,7 @@[m [mCREATE TABLE IF NOT EXISTS admin ([m
+      [m
+  );[m
+  [m
+[32m+[m[32m DROP TABLE IF EXISTS favorites;[m
+  CREATE TABLE IF NOT EXISTS favorites  ([m
+      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,[m
+      shop_id INT NOT NULL,[m
+[36m@@ -97,5 +111,5 @@[m [mCREATE TABLE IF NOT EXISTS admin ([m
+      FOREIGN KEY (shop_id) REFERENCES shops (id),[m
+      FOREIGN KEY (user_id) REFERENCES users (id)[m
+  );[m
+[31m- [m
+[31m- [m
+\ No newline at end of file[m
+[32m+[m[41m   [m
+[32m+[m[32m SET FOREIGN_KEY_CHECKS = 1; -- 外部キー制約を再度有効にする[m
+\ No newline at end of file[m
+[1mdiff --git a/src/main/resources/templates/admin/category/category-list.html b/src/main/resources/templates/admin/category/category-list.html[m
+[1mindex 0c5f435..94fd9e2 100644[m
+[1m--- a/src/main/resources/templates/admin/category/category-list.html[m
+[1m+++ b/src/main/resources/templates/admin/category/category-list.html[m
+[36m@@ -22,7 +22,7 @@[m
+         <!-- ヘッダー -->[m
+         <header class="header">[m
+           <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[32m+[m[32m              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>[m
+               <div class="button-container">[m
+                 <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>[m
+                 <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>[m
+[36m@@ -35,7 +35,7 @@[m
+        <!--breadcrumb--> [m
+         <nav>[m
+           <ol class="breadcrumb">[m
+[31m-            <li><a href="/admin-top.html">ホーム</a></li>[m
+[32m+[m[32m            <li><a th:href="@{admin/}">ホーム</a></li>[m
+             <li>カテゴリー一覧</li>[m
+           </ol>[m
+         </nav>[m
+[1mdiff --git a/src/main/resources/templates/admin/category/edit.html b/src/main/resources/templates/admin/category/edit.html[m
+[1mindex 039873d..f3e93cb 100644[m
+[1m--- a/src/main/resources/templates/admin/category/edit.html[m
+[1m+++ b/src/main/resources/templates/admin/category/edit.html[m
+[36m@@ -18,7 +18,7 @@[m
+         <!-- ヘッダー -->[m
+         <header class="header">[m
+           <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[32m+[m[32m              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>[m
+               <div class="button-container">[m
+                 <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>[m
+                 <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>[m
+[36m@@ -31,7 +31,7 @@[m
+          <!--breadcrumb--> [m
+          <nav>[m
+           <ol class="breadcrumb">[m
+[31m-            <li><a href="/admin-top.html">ホーム</a></li>[m
+[32m+[m[32m            <li><a th:href="@{admin/}">ホーム</a></li>[m
+             <li>カテゴリー編集</li>[m
+           </ol>[m
+         </nav>[m
+[1mdiff --git a/src/main/resources/templates/admin/category/register.html b/src/main/resources/templates/admin/category/register.html[m
+[1mindex e5162d7..fed7ccf 100644[m
+[1m--- a/src/main/resources/templates/admin/category/register.html[m
+[1m+++ b/src/main/resources/templates/admin/category/register.html[m
+[36m@@ -18,7 +18,7 @@[m
+         <!-- ヘッダー -->[m
+         <header class="header">[m
+           <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[32m+[m[32m              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>[m
+               <div class="button-container">[m
+                 <button class="button" type="button">ログイン</button>[m
+                 <button class="button" type="button">会員登録</button>[m
+[36m@@ -31,7 +31,7 @@[m
+         <!--breadcrumb--> [m
+           <nav>[m
+             <ol class="breadcrumb">[m
+[31m-              <li><a href="/admin-top.html">ホーム</a></li>[m
+[32m+[m[32m              <li><a th:href="@{admin/}">ホーム</a></li>[m
+               <li>カテゴリー登録</li>[m
+             </ol>[m
+           </nav>[m
+[1mdiff --git a/src/main/resources/templates/admin/shop/admin-shop-list.html b/src/main/resources/templates/admin/shop/admin-shop-list.html[m
+[1mindex 35a5dcf..7787c79 100644[m
+[1m--- a/src/main/resources/templates/admin/shop/admin-shop-list.html[m
+[1m+++ b/src/main/resources/templates/admin/shop/admin-shop-list.html[m
+[36m@@ -22,7 +22,7 @@[m
+         <!-- ヘッダー -->[m
+         <header class="header">[m
+           <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[32m+[m[32m              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>[m
+               <div class="button-container">[m
+                 <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>[m
+                 <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>[m
+[36m@@ -35,7 +35,7 @@[m
+        <!--breadcrumb--> [m
+         <nav>[m
+           <ol class="breadcrumb">[m
+[31m-            <li><a href="/admin-top.html">ホーム</a></li>[m
+[32m+[m[32m            <li><a th:href="@{admin/}">ホーム</a></li>[m
+             <li>店舗一覧</li>[m
+           </ol>[m
+         </nav>[m
+[1mdiff --git a/src/main/resources/templates/admin/shop/edit.html b/src/main/resources/templates/admin/shop/edit.html[m
+[1mindex f7bcb8c..450e197 100644[m
+[1m--- a/src/main/resources/templates/admin/shop/edit.html[m
+[1m+++ b/src/main/resources/templates/admin/shop/edit.html[m
+[36m@@ -18,7 +18,7 @@[m
+         <!-- ヘッダー -->[m
+         <header class="header">[m
+           <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[32m+[m[32m              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>[m
+               <div class="button-container">[m
+                 <button class="button" type="button">ログイン</button>[m
+                 <button class="button" type="button">会員登録</button>[m
+[36m@@ -31,7 +31,7 @@[m
+         <!--breadcrumb--> [m
+           <nav>[m
+             <ol class="breadcrumb">[m
+[31m-              <li><a href="/admin-top.html">ホーム</a></li>[m
+[32m+[m[32m              <li><a th:href="@{admin/}">ホーム</a></li>[m
+               <li>店舗編集</li>[m
+             </ol>[m
+           </nav>[m
+[1mdiff --git a/src/main/resources/templates/admin/shop/register.html b/src/main/resources/templates/admin/shop/register.html[m
+[1mindex 8ee1976..e695b4d 100644[m
+[1m--- a/src/main/resources/templates/admin/shop/register.html[m
+[1m+++ b/src/main/resources/templates/admin/shop/register.html[m
+[36m@@ -18,7 +18,7 @@[m
+         <!-- ヘッダー -->[m
+         <header class="header">[m
+           <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[32m+[m[32m              <h1><a th:href="@{admin/}">NagoyaMeshi</a></h1>[m
+               <div class="button-container">[m
+                 <button class="button" type="button">ログイン</button>[m
+                 <button class="button" type="button">会員登録</button>[m
+[36m@@ -31,7 +31,7 @@[m
+         <!--breadcrumb--> [m
+           <nav>[m
+             <ol class="breadcrumb">[m
+[31m-              <li><a href="/admin-top.html">ホーム</a></li>[m
+[32m+[m[32m              <li><a th:href="@{admin/}">ホーム</a></li>[m
+               <li>店舗登録</li>[m
+             </ol>[m
+           </nav>[m
+[1mdiff --git a/src/main/resources/templates/user/member/login.html b/src/main/resources/templates/user/member/login.html[m
+[1mdeleted file mode 100644[m
+[1mindex ea0954f..0000000[m
+[1m--- a/src/main/resources/templates/user/member/login.html[m
+[1m+++ /dev/null[m
+[36m@@ -1,78 +0,0 @@[m
+[31m-<!DOCTYPE html>[m
+[31m-<html lang="ja" xmlns:th="https://www.thymeleaf.org">[m
+[31m-    <head>[m
+[31m-        <meta charset="UTF-8">[m
+[31m-        <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+[31m-        <title>Login</title>[m
+[31m-        <meta name="description" content="ログイン">[m
+[31m-[m
+[31m-        <!-- CSS -->[m
+[31m-        <link rel="stylesheet" href="../css/style.css">[m
+[31m-        <!-- FontAwesome -->[m
+[31m-        <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>[m
+[31m-[m
+[31m-    </head>[m
+[31m-    <body>[m
+[31m-[m
+[31m-[m
+[31m-        <!-- ヘッダー -->[m
+[31m-        <header class="header">[m
+[31m-          <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[31m-              <div class="button-container">[m
+[31m-                <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>[m
+[31m-                <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>[m
+[31m-              </div>[m
+[31m-            </div>[m
+[31m-        </header>[m
+[31m-[m
+[31m-        <!-- メイン -->[m
+[31m-        <main>[m
+[31m-            <!--breadcrumb--> [m
+[31m-              <nav>[m
+[31m-                <ol class="breadcrumb">[m
+[31m-                  <li><a href="/top.html">ホーム</a></li>[m
+[31m-                  <li>現在のページ</li>[m
+[31m-                </ol>[m
+[31m-              </nav>[m
+[31m-[m
+[31m-            <!-- Login -->[m
+[31m-            <div class="contents-container">[m
+[31m-[m
+[31m-              <div class="contents-header">[m
+[31m-                <h2>ログイン</h2>[m
+[31m-              </div>[m
+[31m-[m
+[31m-              <ul>[m
+[31m-                <li>[m
+[31m-                  <span class="title">メールアドレス</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">パスワード</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-              </ul>[m
+[31m-[m
+[31m-              <a href="/">パスワード忘れた場合</a>[m
+[31m-[m
+[31m-              <div class="button-container">[m
+[31m-                <button class="button" type="button" onclick="location.href=''">登録</button>[m
+[31m-              </div>[m
+[31m-[m
+[31m-            </div>[m
+[31m-          [m
+[31m-        </main>[m
+[31m-[m
+[31m-        <!-- フッター -->[m
+[31m-        <footer class="footer">[m
+[31m-           <p>NagoyaMeshi</p>[m
+[31m-           <small>©NagoyaMeshi</small>[m
+[31m-        </footer>[m
+[31m-[m
+[31m-        <!-- JS -->[m
+[31m-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>[m
+[31m-        [m
+[31m-[m
+[31m-    </body>[m
+[31m-</html>[m
+[1mdiff --git a/src/main/resources/templates/user/member/new-user-registration.html b/src/main/resources/templates/user/member/new-user-registration.html[m
+[1mdeleted file mode 100644[m
+[1mindex 353352c..0000000[m
+[1m--- a/src/main/resources/templates/user/member/new-user-registration.html[m
+[1m+++ /dev/null[m
+[36m@@ -1,95 +0,0 @@[m
+[31m-<!DOCTYPE html>[m
+[31m-<html lang="ja" xmlns:th="https://www.thymeleaf.org">[m
+[31m-    <head>[m
+[31m-        <meta charset="UTF-8">[m
+[31m-        <meta name="viewport" content="width=device-width, initial-scale=1.0">[m
+[31m-        <title>NewMemberRegistration</title>[m
+[31m-        <meta name="description" content="新規会員登録">[m
+[31m-[m
+[31m-        <!-- CSS -->[m
+[31m-        <link rel="stylesheet" href="../css/style.css">[m
+[31m-[m
+[31m-        <!-- FontAwesome -->[m
+[31m-        <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>[m
+[31m-[m
+[31m-    </head>[m
+[31m-    <body>[m
+[31m-[m
+[31m-[m
+[31m-        <!-- ヘッダー -->[m
+[31m-        <header class="header">[m
+[31m-          <div class="header-container">[m
+[31m-              <h1><a href="">NagoyaMeshi</a></h1>[m
+[31m-              <div class="button-container">[m
+[31m-                <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>[m
+[31m-                <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>[m
+[31m-              </div>[m
+[31m-            </div>[m
+[31m-        </header>[m
+[31m-[m
+[31m-        <!-- メイン -->[m
+[31m-        <main>[m
+[31m-        <!-- new-member -->[m
+[31m-            <div class="contents-container">[m
+[31m-              <div class="contents-header">[m
+[31m-                <h2>新規会員登録</h2>[m
+[31m-              </div>[m
+[31m-[m
+[31m-              <ul>[m
+[31m-                <li>[m
+[31m-                  <span class="title">名前</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">フリガナ</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">郵便番号</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">住所</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">電話番号</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">生年月日</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">メールアドレス</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">パスワード</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-                <li>[m
+[31m-                  <span class="title">パスワード(確認)</span>[m
+[31m-                  <input type="text" name="" id="">[m
+[31m-                </li>[m
+[31m-              </ul>[m
+[31m-[m
+[31m-              <div class="button-container">[m
+[31m-                <button class="button" type="button" onclick="location.href=''">登録</button>[m
+[31m-              </div>[m
+[31m-[m
+[31m-            </div>[m
+[31m-        </main>[m
+[31m-[m
+[31m-        <!-- フッター -->[m
+[31m-        <footer class="footer">[m
+[31m-           <p>NagoyaMeshi</p>[m
+[31m-           <small>©NagoyaMeshi</small>[m
+[31m-        </footer>[m
+[31m-[m
+[31m-        <!-- JS -->[m
+[31m-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>[m
+[31m-        [m
+[31m-[m
+[31m-    </body>[m
+[31m-</html>[m
+[1mdiff --git a/src/main/resources/templates/user/shop/shop-detail.html b/src/main/resources/templates/user/shop/shop-detail.html[m
+[1mindex cb05ca9..5fe933c 100644[m
+[1m--- a/src/main/resources/templates/user/shop/shop-detail.html[m
+[1m+++ b/src/main/resources/templates/user/shop/shop-detail.html[m
+[36m@@ -40,42 +40,46 @@[m
+             <!-- ShopDetail -->[m
+             <div class="contents-container">[m
+               <div class="contents-header">[m
+[31m-                <h2>店舗名</h2>[m
+[32m+[m[32m                <h2 th:text="${shop.getName()}"></h2>[m
+               </div>[m
+[31m-              <img src="..\images\image4.jpg">[m
+[31m-[m
+[32m+[m[32m              <img th:if="${shop.getImageName()}" th:src="@{/storage/__${shop.getImageName()}__}" alt="画像">[m
+[32m+[m[32m               <img th:unless="${shop.getImageName()}" th:src="@{/images/noImage.png}"  alt="NO IMAGE">[m
+               <ul>[m
+                 <li>[m
+                   <span class="title">店舗名</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getName()}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">説明</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getDescription()}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">価格帯</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getPriceLowerLimit()}"></p>[m
+[32m+[m[32m                  <p>～</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getPriceUpperLimit()}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">郵便番号</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getPostalCode()}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">住所</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getAddress()}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">営業時間</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getOpeningHours()}"></p>[m
+[32m+[m[32m                  <p>～</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getClosingHours()}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">定休日</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getRegularHoliday()}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">カテゴリー</span>[m
+[31m-                  <p class="text">サンプルテキスト</p>[m
+[32m+[m[32m                  <p class="text" th:text="${shop.getCategory().getName}"></p>[m
+                 </li>[m
+                 <li>[m
+                   <span class="title">レビュー</span>[m
+[1mdiff --git a/src/main/resources/templates/user/shop/shop-list.html b/src/main/resources/templates/user/shop/shop-list.html[m
+[1mindex 120c76b..30b1d17 100644[m
+[1m--- a/src/main/resources/templates/user/shop/shop-list.html[m
+[1m+++ b/src/main/resources/templates/user/shop/shop-list.html[m
+[36m@@ -42,6 +42,16 @@[m
+                 </ol>[m
+               </nav>[m
+             [m
+[32m+[m[32m            <form method="get" th:action="@{/shop}" class="mb-3 samuraitravel-sort-box">[m[41m [m
+[32m+[m[32m                 <input th:if="${keyword}" type="hidden" name="keyword" th:value="${keyword}">[m
+[32m+[m[32m                 <input th:if="${area}" type="hidden" name="area" th:value="${area}">[m
+[32m+[m[32m                 <input th:if="${price}" type="hidden" name="price" th:value="${price}">[m[41m                                      [m
+[32m+[m[32m                 <select class="form-select form-select-sm" name="order" onChange="this.form.submit();">[m
+[32m+[m[32m                     <option value="createdAtDesc" th:selected="${order == 'createdAtDesc' || order == null}">新着順</option>[m[41m                                            [m
+[32m+[m[32m                     <option value="priceAsc" th:selected="${order == 'priceAsc'}">料金が安い順</option>[m
+[32m+[m[32m                 </select>[m[41m   [m
+[32m+[m[32m             </form>[m[41m         [m
+[32m+[m[41m            [m
+           <!--main-contents-->  [m
+           <div class="main-contents">[m
+ [m
+[1mdiff --git a/src/main/resources/templates/user/top.html b/src/main/resources/templates/user/top.html[m
+[1mindex d70cff4..cf9a4b2 100644[m
+[1m--- a/src/main/resources/templates/user/top.html[m
+[1m+++ b/src/main/resources/templates/user/top.html[m
+[36m@@ -1,5 +1,5 @@[m
+ <!DOCTYPE html>[m
+[31m-<html lang="ja" xmlns:th="https://www.thymeleaf.org">[m
+[32m+[m[32m <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">[m
+     <head>[m
+         <meta charset="UTF-8">[m
+         <meta name="viewport" content="width=device-width, initial-scale=1.0">[m

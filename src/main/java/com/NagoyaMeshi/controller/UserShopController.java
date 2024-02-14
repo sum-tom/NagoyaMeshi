@@ -7,6 +7,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -25,8 +26,11 @@ public class UserShopController {
 	    }	
 	
 	@GetMapping
-	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {
-		 Page<Shop> shopPage;
+	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, 
+			 						  @RequestParam(name = "keyword", required = false) String keyword) {
+		 
+		
+		Page<Shop> shopPage;
        
 		 if (keyword != null && !keyword.isEmpty()) {
 			 shopPage = shopRepository.findByNameLike("%" + keyword + "%", pageable);                
@@ -36,9 +40,19 @@ public class UserShopController {
 		 
        model.addAttribute("shopPage", shopPage); 
        model.addAttribute("keyword", keyword);
+      
        
        
        return "/user/shop/shop-list";
    }  
+	
+	@GetMapping("/{id}")
+    public String show(@PathVariable(name = "id") Integer id, Model model) {
+		Shop shop = shopRepository.getReferenceById(id);
+        
+        model.addAttribute("shop", shop);         
+        
+        return "user/shop-detail";
+    }    
 	
 }
