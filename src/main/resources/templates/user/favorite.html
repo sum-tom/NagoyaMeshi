@@ -53,20 +53,20 @@
                 </thead> 
                 <tbody>                
                       <tr th:each="favorite : ${favoritePage}">
-                        <td th:text="${favorite.getshop().getNmae()}"></td>
-                        <td th:text="${favorite.getshop().getAddress()}"></td>
+                        <td th:text="${favorite.getShop().getName()}"></td>
+                        <td th:text="${favorite.getShop().getAddress()}"></td>
                         <td><a href="#" class="button" data-bs-toggle="modal" th:data-bs-target="${'#deleteFavoriteModal' + favorite.getId()}">削除</a></td> 
                         
-                        <!-- 削除用モーダル -->
-                         <div class="modal fade" th:id="${'deleteFavoriteModal' + shop.getId()}" tabindex="-1" th:aria-labelledby="${'deleteFavoriteModalLabel' + favorite.getId()}">
+				<!--削除用モーダル -->
+                         <div class="modal fade" th:id="${'deleteFavoriteModal' + favorite.getId()}" tabindex="-1" th:aria-labelledby="${'deleteFavoriteModalLabel' + favorite.getId()}">
                              <div class="modal-dialog">
                                  <div class="modal-content">
                                      <div class="modal-header">
-                                         <h5 class="modal-title" th:id="${'deleteFavoriteModalLabel' + shop.getId()}" th:text="${favorite.getName() + 'を削除してもよろしいですか？'}"></h5>
+                                         <h5 class="modal-title" th:id="${'deleteFavoriteModalLabel' + favorite.getId()}" th:text="${favorite.getShop().getName() + 'を削除してもよろしいですか？'}"></h5>
                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="閉じる"></button>
                                      </div>
                                      <div class="modal-footer">
-                                         <form method="post"th:action="@{/user/favorite/__$favorite.getId()}__/delete}">
+                                         <form method="post"th:action="@{/user/__${favorite.getId()}__/delete}">
                                              <button type="submit" class="btn">削除</button>
                                          </form>
                                      </div>

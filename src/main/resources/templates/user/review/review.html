@@ -34,48 +34,15 @@
               <div class="section-header">
                 <h2>レビュー一覧</h2>
               </div>
-
-              <div class="review-item">
-                <ul>
-                  <li class="name">サンプルネーム</li>
-                  <li class="star">☆☆☆☆☆</li>
-                  <li class="review-text">サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。</li>
-                </ul>
-              </div>
-
-              <div class="review-item">
-                <ul>
-                  <li class="name">サンプルネーム</li>
-                  <li class="star">☆☆☆☆☆</li>
-                  <li class="review-text">サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。</li>
-                </ul>
-              </div>
-
-              <div class="review-item">
-                <ul>
-                  <li class="name">サンプルネーム</li>
-                  <li class="star">☆☆☆☆☆</li>
-                  <li class="review-text">サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。</li>
-                </ul>
-              </div>
-
-              <div class="review-item">
-                <ul>
-                  <li class="name">サンプルネーム</li>
-                  <li class="star">☆☆☆☆☆</li>
-                  <li class="review-text">サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。</li>
-                </ul>
-              </div>
-
-              <div class="review-item">
-                <ul>
-                  <li class="name">サンプルネーム</li>
-                  <li class="star">☆☆☆☆☆</li>
-                  <li class="review-text">サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。</li>
-                </ul>
-              </div>
               
-
+			<tbody> 
+              <tr class="review-item" th:each="review : ${review}">
+                  <td class="name" th:text="${review.getUser().getName()}"></td>
+                  <td class="star" th:text="${review.getReviewRating()}"></td>
+                  <td class="review-text" th:text="${review.getReviewComment()}"></td>
+              </tr>
+			</tbody>
+    
             </div>
           </section>
         </main>

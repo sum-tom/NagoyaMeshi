@@ -59,3 +59,13 @@ INSERT IGNORE INTO favorites (id,shop_id, user_id) VALUES (3,'3','1');
 
 --reviews
 INSERT IGNORE INTO reviews (id,shop_id, user_id, review_rating, review_comment) VALUES (1,'1','1','★・★・★','サンプルテキスト');
+
+-- rolesテーブル
+INSERT IGNORE INTO roles (id, name) VALUES (1, 'ROLE_GENERAL');
+INSERT IGNORE INTO roles (id, name) VALUES (2, 'ROLE_ADMIN');
+
+--users
+INSERT IGNORE INTO users (name, furigana, postal_code, address, phone_number, email, password, role_id, enabled)
+VALUES
+('John Doe', 'じょん どう', '1234567', '123 Main St', '123-456-7890', 'john.doe@example.com', 'hashed_password', 1, true),
+('Jane Smith', 'じぇいん すみす', '7654321', '456 Oak St', '987-654-3210', 'jane.smith@example.com', 'hashed_password', 2, true);

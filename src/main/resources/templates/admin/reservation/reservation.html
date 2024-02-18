@@ -37,6 +37,14 @@
             <li>予約一覧</li>
           </ol>
         </nav>
+        
+        <form method="get" th:action="@{/admin/reservation}" class="mb-3">
+             <div class="input-group">
+                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="予約">
+                 <button type="submit" >検索</button> 
+             </div>               
+         </form>    
+        
         <!-- reservation -->
         <div class="contents-container">
           <div class="contents-header">
@@ -78,6 +86,27 @@
                       
                 </tbody>
             </table>   
+              
+               <!-- ページネーション -->
+                 <div th:if="${reservationPage.getTotalPages() > 1}" >
+                     <nav aria-label="一覧ページ">
+                         <ul class="pagination">
+                             <li class="page-item">
+                                 <span th:if="${reservationPage.isFirst()}" >前</span>
+                                 <a th:unless="${reservationPage.isFirst()}" th:href="@{/admin/reservation(page = ${reservationPage.getNumber() - 1}, keyword = ${keyword})}">前</a>
+                             </li>
+                             <li th:each="i : ${#numbers.sequence(0, reservationPage.getTotalPages() - 1)}" >
+                                 <span th:if="${i == reservationPage.getNumber()}"  th:text="${i + 1}"></span>
+                                 <a th:unless="${i == reservationPage.getNumber()}" th:href="@{/admin/reservation(page = ${i}, keyword = ${keyword})}"  th:text="${i + 1}"></a>
+                             </li>
+                             <li class="page-item">                        
+                                 <span th:if="${reservationPage.isLast()}" >次</span>
+                                 <a th:unless="${reservationPage.isLast()}" th:href="@{/admin/reservation(page = ${reservationPage.getNumber() + 1}, keyword = ${keyword})}" >次</a>
+                             </li>
+                         </ul>
+                     </nav> 
+                 </div>     
+              
               
             </div>
         </main>

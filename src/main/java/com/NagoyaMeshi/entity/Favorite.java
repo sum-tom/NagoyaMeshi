@@ -8,7 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -23,19 +23,19 @@ public class Favorite {
 	@Column(name = "id")
 	private Integer id;
 	 
-	@ManyToOne
-	@JoinColumn(name = "shop_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@OneToOne
+	@JoinColumn(name = "shop_id")
 	private Shop shop; 
 	    
-	@Column(name = "shop_id")
-    private Integer shopId;
+//	@Column(name = "shop_id")
+//    private Integer shopId;
 	
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id", insertable = false, updatable = false)
+	@OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
     
-    @Column(name = "user_id")
-    private Integer userId;
+//    @Column(name = "user_id")
+//    private Integer userId;
     
     @Column(name = "created_at", insertable = false, updatable = false)
     private Timestamp createdAt;
