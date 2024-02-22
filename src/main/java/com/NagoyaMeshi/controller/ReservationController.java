@@ -34,8 +34,15 @@ public class ReservationController {
 		@RequestParam(name = "keyword", required = false) String keyword){
 		 Page<Reservation> reservationPage; 
 		 
-		
-        
+//		 List<Shop> shop = shopRepository.findByNameLike(keyword, pageable);
+//
+//		 List<Integer> shopId = shop.stream()
+//				    .map(Shop::getId)
+//				    .collect(Collectors.toList());
+//		
+//		 Page<Reservation> reservationPage = reservationRepository.findByShopIdIn(shopId, pageable);
+		 
+		 
 		 if (keyword != null && !keyword.isEmpty()) {
 			 reservationPage = reservationRepository.findById("%" + keyword + "%", pageable);                
          } else {
