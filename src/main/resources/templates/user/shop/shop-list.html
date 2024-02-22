@@ -36,17 +36,15 @@
             
               <nav>
                 <ol class="breadcrumb">
-                  <li><a href="/">ホーム</a></li>
-                  <li><a href="/.../">2層目</a></li>
+                  <li><a th:href="@{/}">ホーム</a></li>
                   <li>現在のページ</li>
                 </ol>
               </nav>
             
-            <form method="get" th:action="@{/shop}" class="mb-3 samuraitravel-sort-box"> 
+            <form method="get" th:action="@{/shop}" > 
                  <input th:if="${keyword}" type="hidden" name="keyword" th:value="${keyword}">
-                 <input th:if="${area}" type="hidden" name="area" th:value="${area}">
                  <input th:if="${price}" type="hidden" name="price" th:value="${price}">                                      
-                 <select class="form-select form-select-sm" name="order" onChange="this.form.submit();">
+                 <select  name="order" onChange="this.form.submit();">
                      <option value="createdAtDesc" th:selected="${order == 'createdAtDesc' || order == null}">新着順</option>                                            
                      <option value="priceAsc" th:selected="${order == 'priceAsc'}">料金が安い順</option>
                  </select>   
@@ -58,23 +56,17 @@
             <!--sideber-->    
             <div class="sidebar">
               <div class="side-container">
-                <form method="get" th:action="@{/admin/shop}" class="mb-3">
-                  <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="店舗名">
-                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+                <form method="get" th:action="@{/user/shop}" class="mb-3">
+                  <input type="text"  name="keyword" th:value="${keyword}" placeholder="店舗名">
+                  <button type="submit">検索</button> 
                 </form>
 
                 <p>カテゴリー別検索</p>
 
                 <form class="form2" action="#">
-                  <select name="example2" size="1">
-                    <option value="">5つの選択肢を表示</option>
-                    <option>選択肢のサンプル2</option>
-                    <option>選択肢のサンプル3</option>
-                    <option>選択肢のサンプル4</option>
-                    <option>選択肢のサンプル5</option>
-                    <option>選択肢のサンプル6</option>
-                    <option>選択肢のサンプル7</option>
-                  </select>
+                  <select  name="categoryId">
+					  <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+				  </select>
                   <input type="submit" value="検索" />
                 </form>
 
@@ -86,24 +78,22 @@
 
               <div class="shop-list-container"th:each="shop : ${shopPage}">
                 
-                <div class="shop-list-item">
-                  <a th:href="@{/user/shop/__${shop.getId()}__}"></a>
-                  <div class="shop-list-body">
-                   <img th:src="@{/storage/__${shop.getImageName()}__}"  alt="店舗画像"> 
-                    <div class="shop-list-text">
-                      <h3 th:text="${shop.getName()}"></h3>
-                        <div class="category-body">
-                          <div class="category-tag"><p>カテゴリー</p></div>
-                          <div class="category-tag"><p>カテゴリー</p></div> 
-                          <div class="category-tag"><p>カテゴリー</p></div> 
-                          <div class="category-tag"><p>カテゴリー</p></div>      
-                        </div>
+                <a th:href="@{/user/shop/__${shop.getId()}__}">
+	                <div class="shop-list-item">
+	                  <div class="shop-list-body">
+	                   <img th:src="@{/storage/__${shop.getImageName()}__}"  alt="店舗画像"> 
+	                    <div class="shop-list-text">
+	                      <h3 th:text="${shop.getName()}"></h3>
+	                        <div class="category-body">
+	                          <div class="category-tag" th:text="${shop.getCategory().getName()}"></div>
+                        	</div>
                         <div class="review"><p>☆☆☆☆☆</p></div>
                         <div class="review-text"><P>サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。</P></div>
                     </div>
                   </div>
-                </div>
-
+                	</div>
+				</a>
+				
                 </div>
 
              

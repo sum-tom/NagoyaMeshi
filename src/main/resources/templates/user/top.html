@@ -26,10 +26,23 @@
               </div>
             </div>
         </header>
-
+        
+        
         <!-- メイン -->
         <main>
-
+			
+		<div th:if="${param.loggedIn}" class="alert alert-info">
+         	ログインしました。
+         </div>  
+                    
+        <div th:if="${param.loggedOut}" class="alert alert-info">
+            ログアウトしました。
+        </div>
+                    
+        <div th:if="${successMessage}" class="alert alert-info">
+            <span th:text="${successMessage}"></span>
+        </div> 
+        
             <!--cover-->    
             <section class="cover">
               <div class="cover-container">

@@ -7,7 +7,7 @@
         <meta name="description" content="店舗詳細">
 
         <!-- CSS -->
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="/../css/style.css">
 
         <!-- FontAwesome -->
         <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>
@@ -32,7 +32,8 @@
        <!--breadcrumb--> 
           <nav>
             <ol class="breadcrumb">
-              <li><a href="/top.html">ホーム</a></li>
+              <li><a th:href="@{/}">ホーム</a></li>
+              <li><a th:href="@{/user/shop}">店舗一覧</a></li>
               <li>店舗詳細</li>
             </ol>
           </nav>
@@ -81,10 +82,10 @@
                   <span class="title">カテゴリー</span>
                   <p class="text" th:text="${shop.getCategory().getName}"></p>
                 </li>
-                <li>
-                  <span class="title">レビュー</span>
-                  <p class="text">サンプルテキスト</p>
-                </li>
+<!--                <li>-->
+<!--                  <span class="title">レビュー</span>-->
+<!--                  <p class="text">サンプルテキスト</p>-->
+<!--                </li>-->
               </ul>
 
               <div class="button-container">

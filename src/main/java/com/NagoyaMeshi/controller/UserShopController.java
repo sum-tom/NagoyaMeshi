@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.NagoyaMeshi.entity.Shop;
+import com.NagoyaMeshi.repository.CategoryRepository;
 import com.NagoyaMeshi.repository.ShopRepository;
 
 @Controller
@@ -19,10 +20,11 @@ import com.NagoyaMeshi.repository.ShopRepository;
 public class UserShopController {
 
 	private final ShopRepository shopRepository;
+	private final CategoryRepository categoryRepository;
 	
-	public UserShopController(ShopRepository shopRepository) {
+	public UserShopController(ShopRepository shopRepository,CategoryRepository categoryRepository) {
 	    this.shopRepository = shopRepository; 
-	    
+	    this.categoryRepository = categoryRepository; 
 	    }	
 	
 	@GetMapping
@@ -40,7 +42,7 @@ public class UserShopController {
 		 
        model.addAttribute("shopPage", shopPage); 
        model.addAttribute("keyword", keyword);
-      
+       model.addAttribute("categories", categoryRepository.findAll());
        
        
        return "/user/shop/shop-list";
@@ -52,7 +54,7 @@ public class UserShopController {
         
         model.addAttribute("shop", shop);         
         
-        return "user/shop-detail";
+        return "user/shop/shop-detail";
     }    
 	
 }

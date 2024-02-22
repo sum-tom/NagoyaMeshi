@@ -94,7 +94,7 @@
                 <li>
                   <span class="title">電話番号</span>
                   <div th:if="${#fields.hasErrors('phoneNumber')}"  th:errors="*{phoneNumber}"></div>
-                  <input type="number"  th:field="*{phoneNumber}">
+                  <input type="text"  th:field="*{phoneNumber}">
                 </li>
                 <li>
                   <span class="title">定休日</span>
@@ -104,7 +104,11 @@
                 <li>
                   <span class="title">カテゴリー</span>
                   <div th:if="${#fields.hasErrors('categoryId')}"  th:errors="*{categoryId}"></div>
-                  <input type="text"  th:field="*{categoryId}">
+                  <select  name="categoryId">
+					  
+					  <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+					  
+				  </select>
                 </li>
                 
               </ul>

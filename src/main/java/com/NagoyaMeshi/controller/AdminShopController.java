@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.NagoyaMeshi.entity.Shop;
 import com.NagoyaMeshi.form.ShopEditForm;
 import com.NagoyaMeshi.form.ShopRegisterForm;
+import com.NagoyaMeshi.repository.CategoryRepository;
 import com.NagoyaMeshi.repository.ShopRepository;
 import com.NagoyaMeshi.service.ShopService;
 
@@ -26,11 +27,14 @@ import com.NagoyaMeshi.service.ShopService;
 @RequestMapping("/admin/shop")
 public class AdminShopController {
 	private final ShopRepository shopRepository;
-	private final ShopService shopService;  
+	private final ShopService shopService; 
+	private final CategoryRepository categoryRepository;
+
 	
-	public AdminShopController(ShopRepository shopRepository, ShopService shopService) {
+	public AdminShopController(ShopRepository shopRepository, ShopService shopService,CategoryRepository categoryRepository) {
     this.shopRepository = shopRepository; 
-    this.shopService = shopService; 
+    this.shopService = shopService;
+    this.categoryRepository = categoryRepository; 
     }	
 	
 	@GetMapping
@@ -62,6 +66,7 @@ public class AdminShopController {
 	@GetMapping("/register")
     public String register(Model model) {
         model.addAttribute("shopRegisterForm", new ShopRegisterForm());
+        model.addAttribute("categories", categoryRepository.findAll());
         return "admin/shop/register";
     } 
 	
@@ -100,7 +105,8 @@ public class AdminShopController {
          
          model.addAttribute("imageName", imageName);
          model.addAttribute("shopEditForm", shopEditForm);
-		 
+         model.addAttribute("categories", categoryRepository.findAll());
+         
          return "admin/shop/edit";
      }   
 	 
