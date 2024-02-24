@@ -28,4 +28,7 @@ public class UserEditForm {
     
     @NotBlank(message = "メールアドレスを入力してください。")
     private String email;
+    
+//    @NotBlank(message = "roleを選択してください。")
+//    private String role;
 }

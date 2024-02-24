@@ -41,18 +41,18 @@
                 </div>
                 <div class="item-body">
 					
-                  	<form method="get" th:action="@{/admin/}" class="mb-3">
+                  	<form method="get" th:action="@{/admin/member}" class="mb-3">
 			             <div class="input-group">
-			                 <input type="text" class="form-control" name="keyword" th:value="${keyword}" placeholder="店舗名">
-			                 <button type="submit" class="btn text-white shadow-sm samuraitravel-btn">検索</button> 
+			                 <input type="text"  name="keyword" th:value="${keyword}" placeholder="ユーザー名">
+			                 <button type="submit" >検索</button> 
 			             </div>               
-	         		</form> 
+			         </form> 
 	         		
                   <div class="button-container">
-                    <a th:href="@{admin/shop}">
+                    <a th:href="@{admin/member}">
 						<button class="button" type="button">一覧</button>
 					</a>
-                	<a th:href="@{admin/shop/register}">    
+                	<a th:href="@{admin/member/register}">    
 						<button class="button" type="button">登録</button>
 					</a>
                   </div>

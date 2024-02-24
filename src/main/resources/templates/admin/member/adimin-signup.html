@@ -3,11 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MemberInformation</title>
-        <meta name="description" content="会員情報">
+        <title>NewMemberRegistration</title>
+        <meta name="description" content="新規会員登録">
 
         <!-- CSS -->
-        <link rel="stylesheet" href="/../../css/style.css">
+        <link rel="stylesheet" href="../css/style.css">
 
         <!-- FontAwesome -->
         <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>
@@ -29,15 +29,13 @@
 
         <!-- メイン -->
         <main>
-        <!-- member-information -->
+        <!-- new-member -->
             <div class="contents-container">
               <div class="contents-header">
-                <h2>会員情報</h2>
+                <h2>新規会員登録</h2>
               </div>
-
-              <form method="post" th:action="@{/user/member/update}" th:object="${userEditForm}">
-				  <input type="hidden" th:field="*{id}">
-				  
+              
+			 <form method="post" th:action="@{/signup}" th:object="${signupForm}">
               <ul>
                 <li>
                   <span class="title">名前</span>
@@ -69,16 +67,32 @@
                    <div th:if="${#fields.hasErrors('email')}"  th:errors="*{email}"></div>
                   <input type="text"  th:field="*{email}" autocomplete="email" placeholder="XXXXX@example.com">
                 </li>
-                
+                <li>
+                  <span class="title">パスワード</span>
+                  <div th:if="${#fields.hasErrors('password')}"  th:errors="*{password}"></div>
+                  <input type="password"  th:field="*{password}" autocomplete="new-password">
+                </li>
+                <li>
+                  <span class="title">パスワード(確認)</span>
+                  <div th:if="${#fields.hasErrors('passwordConfirmation')}"  th:errors="*{passwordConfirmation}"></div>
+                  <input type="password"  th:field="*{passwordConfirmation}" autocomplete="new-password">
+                </li>
+                <li>
+                  <span class="title">role</span>
+                  <div th:if="${#fields.hasErrors('role')}"  th:errors="*{role}"></div>
+                <select name="example">
+					<option th:value="${role.id}">1</option>
+					<option th:value="${role.id}">2</option>
+				</select>
+                </li>
               </ul>
 			
               <div class="button-container">
-                <button class="button" type="submit" >更新</button>
+                <button class="button" type="submit" >登録</button>
               </div>
 			</form>
 			
             </div>
-          
         </main>
 
         <!-- フッター -->

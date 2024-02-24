@@ -87,8 +87,7 @@
 	                        <div class="category-body">
 	                          <div class="category-tag" th:text="${shop.getCategory().getName()}"></div>
                         	</div>
-                        <div class="review"><p>☆☆☆☆☆</p></div>
-                        <div class="review-text"><P>サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。サンプルテキスト。</P></div>
+                        <div class="review-text" th:text="${shop.getDescription()}"></div>
                     </div>
                   </div>
                 	</div>
