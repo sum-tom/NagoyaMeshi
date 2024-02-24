@@ -89,11 +89,20 @@
               </ul>
 
               <div class="button-container">
-                <button class="button" type="button" onclick="location.href=''">予約</button>
-                <button class="button" type="button" onclick="location.href=''">お気に入り</button>
-                <button class="button" type="button" onclick="location.href=''">レビュー</button>
+				  
+				  <form th:action="@{/user/shop/__${shop.getId()}__/create}" method="post">
+<!--    				<input type="hidden" name="shopId" th:value="${shop.id}" />-->
+    				<button type="submit">お気に入りに追加</button>
+				  </form>
+				  
+				  
+				  
+				  
+<!--                <button class="button" type="button" onclick="location.href=''">予約</button>-->
+<!--                <button class="button" type="button" onclick="location.href=''">お気に入り</button>-->
+<!--                <button class="button" type="button" onclick="location.href=''">レビュー</button>-->
 
-                <button class="button" type="button" onclick="location.href=''">レビュー一覧</button>
+<!--                <button class="button" type="button" onclick="location.href=''">レビュー一覧</button>-->
 
               </div>
 
