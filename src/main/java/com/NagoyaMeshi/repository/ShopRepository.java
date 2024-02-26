@@ -10,5 +10,5 @@ import com.NagoyaMeshi.entity.Shop;
 public interface ShopRepository extends JpaRepository<Shop,Integer>{
 	public Page<Shop> findByNameLike(String keyword, Pageable pageable);
 	public List<Shop> findByNameLike(String keyword);
-	
+	public Page<Shop> findByCategoryId(Integer categoryId, Pageable pageable);
 }

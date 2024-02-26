@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.NagoyaMeshi.entity.Favorite;
@@ -21,7 +20,7 @@ import com.NagoyaMeshi.security.UserDetailsImpl;
 import com.NagoyaMeshi.service.FavoriteService;
 
 @Controller
-@RequestMapping("/user/favorite")
+
 public class UserFavoriteController {
 
 	private final FavoriteRepository favoriteRepository;
@@ -50,27 +49,41 @@ public class UserFavoriteController {
      	return "/user/favorite/favorite";
    }
 	
-	@PostMapping("/{id}/delete")
-    public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
-		favoriteRepository.deleteById(id);
-                
-        redirectAttributes.addFlashAttribute("successMessage", "お気に入り店舗を削除しました。");
-        
-        return "redirect:/user/favorite/favorite";
-    } 
+//	@PostMapping("/user/favorite/{id}/delete")
+//    public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
+//		favoriteRepository.deleteById(id);
+//                
+//        redirectAttributes.addFlashAttribute("successMessage", "お気に入り店舗を削除しました。");
+//        
+//        return "redirect:/user/favorite/favorite";
+//    } 
 	
-
+	@PostMapping("/user/shop/{shopId}/create")
+	public String create(@PathVariable(name = "shopId") Integer shopId,
+	                     @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+	                     RedirectAttributes redirectAttributes, Model model) {
+	  try {
+	    Shop shop = shopRepository.findById(shopId).orElseThrow(() -> new RuntimeException("Shop not found"));
+	    User user = userDetailsImpl.getUser();
+	    favoriteService.create(shop, user);
+	    redirectAttributes.addFlashAttribute("successMessage", "お気に入りに登録しました。");
+	    return "redirect:/user/favorite/favorite";
+	  } catch (RuntimeException e) {
+	    // Handle errors, e.g., add error messages to the model
+	    // model.addAttribute("errorMessage", e.getMessage());
+	    return "/user/favorite/favorite"; // Or redirect to an error page
+	  }}
 	
 	 
-	 @PostMapping("/user/shop/{shopId}/create")
-		public String create(@PathVariable(name = "id") Integer id, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl, RedirectAttributes redirectAttributes, Model model) {
-			Shop shop = shopRepository.getReferenceById(id);
-			User user = userDetailsImpl.getUser();
-			favoriteService.create(shop, user);
-			redirectAttributes.addFlashAttribute("successMessage", "お気に入りに登録しました。");
-			
-			return "redirect:/user/favorite/favorite";
-		}
+//	 @PostMapping("/user/shop/{shopId}/create")
+//		public String create(@PathVariable(name = "id") Integer id, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl, RedirectAttributes redirectAttributes, Model model) {
+//		 Shop shop = shopRepository.findById(id).orElseThrow(() -> new RuntimeException("Shop not found"));
+//			User user = userDetailsImpl.getUser();
+//			favoriteService.create(shop, user);
+//			redirectAttributes.addFlashAttribute("successMessage", "お気に入りに登録しました。");
+//			
+//			return "redirect:/user/favorite/favorite";
+//		}
 	 
 }
 

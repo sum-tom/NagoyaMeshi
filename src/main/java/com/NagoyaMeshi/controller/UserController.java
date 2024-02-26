@@ -35,7 +35,7 @@ public class UserController {
         
         model.addAttribute("user", user);
         
-        return "user/member/index";
+        return "user/top";
     }
     
     @GetMapping("/edit")
