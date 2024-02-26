@@ -21,7 +21,7 @@ import com.NagoyaMeshi.security.UserDetailsImpl;
 import com.NagoyaMeshi.service.FavoriteService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/user/favorite")
 public class UserFavoriteController {
 
 	private final FavoriteRepository favoriteRepository;
@@ -47,16 +47,16 @@ public class UserFavoriteController {
 	
 		model.addAttribute("favoritePage", favoritePage); 
        
-     	return "/user/favorite";
+     	return "/user/favorite/favorite";
    }
 	
 	@PostMapping("/{id}/delete")
     public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
 		favoriteRepository.deleteById(id);
                 
-        redirectAttributes.addFlashAttribute("successMessage", "店舗を削除しました。");
+        redirectAttributes.addFlashAttribute("successMessage", "お気に入り店舗を削除しました。");
         
-        return "redirect:/user";
+        return "redirect:/user/favorite/favorite";
     } 
 	
 
@@ -69,7 +69,7 @@ public class UserFavoriteController {
 			favoriteService.create(shop, user);
 			redirectAttributes.addFlashAttribute("successMessage", "お気に入りに登録しました。");
 			
-			return "redirect:/user/favorite";
+			return "redirect:/user/favorite/favorite";
 		}
 	 
 }

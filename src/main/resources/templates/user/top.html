@@ -113,9 +113,9 @@
             <!--search-->
             <section class="search">
               <div class="search-container">
-                <form id="form1" action="自分のサイトURL">
-                  <input id="sbox" name="s" type="text" placeholder="キーワードを入力" />
-                  <input id="sbtn" type="submit" value="検索" />
+                <form method="get" th:action="@{/user/shop}" class="mb-3">
+                  <input type="text"  name="keyword" th:value="${keyword}" placeholder="店舗名">
+                  <button type="submit">検索</button> 
                 </form>
               </div>
             </section> 
