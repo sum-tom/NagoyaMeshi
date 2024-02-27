@@ -39,7 +39,7 @@ public class UserFavoriteController {
 	    this.shopRepository = shopRepository;
 	    }	
 	
-	@GetMapping
+	@GetMapping("/user/favorite/favorite")
 	public String index(Model model, Pageable pageable,
 			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl){		
 	Page<Favorite> favoritePage = favoriteRepository.findAll(pageable);
@@ -49,14 +49,14 @@ public class UserFavoriteController {
      	return "/user/favorite/favorite";
    }
 	
-//	@PostMapping("/user/favorite/{id}/delete")
-//    public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
-//		favoriteRepository.deleteById(id);
-//                
-//        redirectAttributes.addFlashAttribute("successMessage", "お気に入り店舗を削除しました。");
-//        
-//        return "redirect:/user/favorite/favorite";
-//    } 
+	@PostMapping("/user/{id}/delete")
+    public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
+		favoriteRepository.deleteById(id);
+                
+        redirectAttributes.addFlashAttribute("successMessage", "お気に入り店舗を削除しました。");
+        
+        return "redirect:/user/favorite/favorite";
+    } 
 	
 	@PostMapping("/user/shop/{shopId}/create")
 	public String create(@PathVariable(name = "shopId") Integer shopId,

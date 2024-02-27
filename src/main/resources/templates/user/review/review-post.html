@@ -44,13 +44,39 @@
                 <h2>レビュー投稿</h2>
               </div>
 
-              <p class="shop-name">店舗名</p>
-              <p class="star">☆☆☆☆☆</p>
-              <textarea class="form-control"></textarea>
+				<form th:action="@{/user/review/__${shop.getId()}__/create}" method="post">
+				  <label for="reviewRating">評価:</label>
+				  <select id="reviewRating" name="reviewRating">
+				    <option value="1">1</option>
+				    <option value="2">2</option>
+				    <option value="3">3</option>
+				    <option value="4">4</option>
+				    <option value="5">5</option>
+				  </select>
+				
+				  <label for="reviewComment">レビュー:</label>
+				  <textarea id="reviewComment" name="reviewComment" rows="4"></textarea>
+				
+				  <button type="submit">レビュー投稿</button>
+				</form>
+
+
+
+
+
+
+
+
+
+
+
+<!--              <p class="shop-name">店舗名</p>-->
+<!--              <p class="star">☆☆☆☆☆</p>-->
+<!--              <textarea class="form-control"></textarea>-->
               
-              <div class="button-container">
-                <button class="button" type="button" onclick="location.href=''">投稿</button>
-              </div>
+<!--              <div class="button-container">-->
+<!--                <button class="button" type="button" onclick="location.href=''">投稿</button>-->
+<!--              </div>-->
             </div>
         
         </main>
