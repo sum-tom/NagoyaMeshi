@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.NagoyaMeshi.entity.Shop;
+import com.NagoyaMeshi.form.ReservationRegisterForm;
+import com.NagoyaMeshi.form.ReviewForm;
 import com.NagoyaMeshi.repository.CategoryRepository;
 import com.NagoyaMeshi.repository.ShopRepository;
 
@@ -56,6 +58,9 @@ public class UserShopController {
 		Shop shop = shopRepository.getReferenceById(id);
         
         model.addAttribute("shop", shop);         
+        model.addAttribute("reservationInputForm", new ReservationRegisterForm());
+        model.addAttribute("reviewForm", new ReviewForm());
+        
         
         return "user/shop/shop-detail";
     }    

@@ -38,19 +38,31 @@ public class AdminShopController {
     }	
 	
 	@GetMapping
-	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {
-		 Page<Shop> shopPage;
+	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
+			 						  @RequestParam(name = "keyword", required = false) String keyword,
+			 						 @RequestParam(name = "order", required = false) String order,
+			 						 @RequestParam(name = "price", required = false) Integer price ) { 						  
+			 															
+		 
+		Page<Shop> shopPage;
         
 		 if (keyword != null && !keyword.isEmpty()) {
 			 shopPage = shopRepository.findByNameLike("%" + keyword + "%", pageable);                
          } else {
         	 shopPage = shopRepository.findAll(pageable);
-         }  
+        	 
+             if (order != null && order.equals("priceAsc")) {
+        	 shopPage = shopRepository.findAllByOrderByPriceLowerLimitAsc(pageable);
+             } else {
+        	 shopPage = shopRepository.findAllByOrderByCreatedAtDesc(pageable);   
+             }            
+         }
 		 
         model.addAttribute("shopPage", shopPage); 
         model.addAttribute("keyword", keyword);
-        
-        
+        model.addAttribute("price", price);
+        model.addAttribute("order", order);
+          
         return "/admin/shop/admin-shop-list";
     }  
 	

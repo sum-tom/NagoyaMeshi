@@ -11,4 +11,8 @@ public interface ShopRepository extends JpaRepository<Shop,Integer>{
 	public Page<Shop> findByNameLike(String keyword, Pageable pageable);
 	public List<Shop> findByNameLike(String keyword);
 	public Page<Shop> findByCategoryId(Integer categoryId, Pageable pageable);
+	
+	public Page<Shop> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    public Page<Shop> findAllByOrderByPriceLowerLimitAsc(Pageable pageable);  
+
 }
