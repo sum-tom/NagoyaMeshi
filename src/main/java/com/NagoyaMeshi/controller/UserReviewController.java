@@ -64,7 +64,7 @@ private final ReviewService reviewService;
 	        User user = userDetailsImpl.getUser(); 
 
 	        reviewService.create(shop, user, reviewForm);
-	        return "redirect:/user/review/review" ;
+	        return "/user/review/review" ;
 	    }
 	
 
