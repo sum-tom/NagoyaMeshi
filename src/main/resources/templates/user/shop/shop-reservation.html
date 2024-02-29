@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+ <html xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -44,34 +44,31 @@
                 <h2>店舗名</h2>
               </div>
               
+              <form method="post" th:action="@{/user/reservation/create}" th:object="${ReservationRegisterForm}" enctype="multipart/form-data">
+              
               <ul>
                   <li>
                     <label for="date" class="title">予約日時</label>
-                    <input type="text" name="name" id="name" placeholder="名前">
+                    <div th:if="${#fields.hasErrors('reservationDate')}"  th:errors="*{reservationDate}"></div>
+                  	<input type="date"  th:field="*{reservationDate}">
                   </li>
                     <li>
-                      <label for="test" class="title">時間</label>
-                        <select name="test" id="test">
-                          <option value="test">サンプルテキスト</option>
-                          <option value="test">サンプルテキスト</option>
-                          <option value="test">サンプルテキスト</option>
-                          <option value="test">サンプルテキスト</option>
-                        </select>
+                      <label for="test" class="title">予約時間</label>
+                        <div th:if="${#fields.hasErrors('reservationTime')}"  th:errors="*{reservationTime}"></div>
+                  		<input type="time"  th:field="*{reservationTime}">
                      </li>
                      <li>
                         <label for="test" class="title">人数</label>
-                          <select name="test" id="test">
-                            <option value="test">サンプルテキスト</option>
-                            <option value="test">サンプルテキスト</option>
-                            <option value="test">サンプルテキスト</option>
-                            <option value="test">サンプルテキスト</option>
-                          </select>
+                          <div th:if="${#fields.hasErrors('numberOfPeopl')}"  th:errors="*{numberOfPeopl}"></div>
+                  		<input type="text"  th:field="*{numberOfPeopl}">
                       </li>
               </ul>
 
               <div class="button-container">
-                <button class="button" type="button" onclick="location.href=''">予約</button>
+                <button class="button" type="submit" >予約</button>
               </div>
+              
+            </form>   
             
             </div>
           </section>

@@ -9,26 +9,31 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.NagoyaMeshi.entity.Reservation;
 import com.NagoyaMeshi.entity.Shop;
+import com.NagoyaMeshi.form.ReservationRegisterForm;
 import com.NagoyaMeshi.repository.ReservationRepository;
 import com.NagoyaMeshi.repository.ShopRepository;
+import com.NagoyaMeshi.service.ReservationService;
 
 @Controller
-@RequestMapping("/admin/reservation")
 public class ReservationController {
 	private final ReservationRepository reservationRepository;
+	private final ReservationService reservationService; 
 	private final ShopRepository shopRepository;
 	
-	public ReservationController( ReservationRepository reservationRepository,ShopRepository shopRepository) {
+	public ReservationController( ReservationRepository reservationRepository,ReservationService reservationService,ShopRepository shopRepository) {
 	    this.reservationRepository = reservationRepository; 
+	    this.reservationService = reservationService;
 	    this.shopRepository = shopRepository;
 	    }	
 	
@@ -69,7 +74,7 @@ public class ReservationController {
 //        
 //        return "redirect:/admin/reservation";
 //    }
-	@GetMapping
+	@GetMapping("/admin/reservation")
     public String index(Model model,
                         @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
                         @RequestParam(name = "keyword", required = false) String keyword) {
@@ -98,7 +103,7 @@ public class ReservationController {
         return "/admin/reservation/reservation";
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/admin/reservation/{id}/delete")
     public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
         reservationRepository.deleteById(id);
 
@@ -106,4 +111,30 @@ public class ReservationController {
 
         return "redirect:/admin/reservation";
     }
+    
+//    @GetMapping("user/shop/{id}/reservation/create")
+    @GetMapping("/user/shop/{id}/reservation/register")
+    public String register(Model model) {
+        model.addAttribute("reservationRegisterForm", new ReservationRegisterForm());
+//        Shop shop = shopRepository.getReferenceById(shopId); 
+//        User user = userDetailsImpl.getUser(); 
+//
+//        reviewService.create(shop, user, reviewForm);
+        return "/user/shop/shop-reservation";
+    } 
+    
+    @PostMapping("/create")
+	 public String create(@ModelAttribute @Validated ReservationRegisterForm reservationRegisterForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {        
+	     
+    	if (bindingResult.hasErrors()) {
+	         return "admin/shop/register";
+	 }
+	     reservationService.create(reservationRegisterForm);
+	 redirectAttributes.addFlashAttribute("successMessage", "予約が完了しました。");    
+	 
+	 return "redirect:/admin/shop";
+    }    
+    
+    
+    
 }

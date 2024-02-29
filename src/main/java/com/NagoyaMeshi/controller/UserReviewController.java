@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.NagoyaMeshi.entity.Review;
 import com.NagoyaMeshi.entity.Shop;
@@ -22,7 +21,6 @@ import com.NagoyaMeshi.security.UserDetailsImpl;
 import com.NagoyaMeshi.service.ReviewService;
 
 @Controller
-@RequestMapping("/user/review")
 public class UserReviewController {
 
 private final ReviewRepository reviewRepository;
@@ -35,7 +33,7 @@ private final ReviewService reviewService;
 	    this.shopRepository = shopRepository; 
 	    }	
 	
-	@GetMapping
+	@GetMapping("/user/review")
 	public String index(Model model, Pageable pageable) {	
 		 Page<Review> reviewPage = reviewRepository.findAll(pageable);
   	 
@@ -46,9 +44,19 @@ private final ReviewService reviewService;
   }  
 	
 
+	 @GetMapping("/user/shop/{id}/review/register")
+	    public String register(@PathVariable("id") Integer shopId, Model model) {
+	        model.addAttribute("reviewForm", new ReviewForm());
+	        model.addAttribute("shopId", shopId);
+	        
+	        return "/user/review/review-post" ;
+	    } 
 	
-	 @PostMapping("/{shopId}/create")
-	    public String create(@PathVariable Integer shopId,
+	
+	
+	
+	 @PostMapping("/user/shop/{id}/review/create")
+	    public String create(@PathVariable("id") Integer shopId,
 	                         @AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
 	                         @ModelAttribute ReviewForm reviewForm) {
 
@@ -56,7 +64,7 @@ private final ReviewService reviewService;
 	        User user = userDetailsImpl.getUser(); 
 
 	        reviewService.create(shop, user, reviewForm);
-	        return "redirect:/user/review/review-post" ;
+	        return "redirect:/user/review/review" ;
 	    }
 	
 
