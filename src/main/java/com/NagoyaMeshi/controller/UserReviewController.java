@@ -1,8 +1,9 @@
 package com.NagoyaMeshi.controller;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,13 +32,13 @@ private final ReviewService reviewService;
 	    this.reviewRepository = reviewRepository; 
 	    this.reviewService = reviewService;
 	    this.shopRepository = shopRepository; 
-	    }	
+	}
 	
 	@GetMapping("/user/review")
-	public String index(Model model, Pageable pageable) {	
+	public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {	
 		 Page<Review> reviewPage = reviewRepository.findAll(pageable);
   	 
-      model.addAttribute("reviewPage", reviewPage); 
+		 model.addAttribute("reviewPage", reviewPage);
       
       
       return "/user/review/review";
@@ -67,18 +68,5 @@ private final ReviewService reviewService;
 	        return "/user/review/review" ;
 	    }
 	
-
-	
-	
-	
-//	@PostMapping("/user/review/{shopId}/create")
-//	  public String create(@PathVariable(name = "shopId") Integer shopId, 
-//			  				@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
-//			  				@ModelAttribute ReviewForm reviewForm) {
-//		
-//		
-//	    reviewService.create(shop, user);
-//	    return "redirect:/user/shop/" + shopId; // レビュー投稿後に店舗詳細ページに戻る
-//	  }
 	
 }

@@ -6,7 +6,7 @@
         <title>ShopReservation</title>
         <meta name="description" content="店舗予約">
         <!-- CSS -->
-        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="/../../css/style.css">
 
         <!-- FontAwesome -->
         <script src="https://kit.fontawesome.com/fc00afdc84.js" crossorigin="anonymous"></script>
@@ -44,7 +44,7 @@
                 <h2>店舗名</h2>
               </div>
               
-              <form method="post" th:action="@{/user/reservation/create}" th:object="${ReservationRegisterForm}" enctype="multipart/form-data">
+              <form method="post" th:action="@{/user/shop/__${shopId}__/reservation/create}" th:object="${ReservationRegisterForm}" enctype="multipart/form-data">
               
               <ul>
                   <li>
@@ -59,8 +59,8 @@
                      </li>
                      <li>
                         <label for="test" class="title">人数</label>
-                          <div th:if="${#fields.hasErrors('numberOfPeopl')}"  th:errors="*{numberOfPeopl}"></div>
-                  		<input type="text"  th:field="*{numberOfPeopl}">
+                          <div th:if="${#fields.hasErrors('numberOfPeople')}"  th:errors="*{numberOfPeople}"></div>
+                  		<input type="text"  th:field="*{numberOfPeople}">
                       </li>
               </ul>
 
