@@ -93,6 +93,7 @@
 				  <form th:action="@{/user/shop/__${shop.getId()}__/create}" method="post">
     				<button type="submit">お気に入りに追加</button>
 				  </form>
+				  <button type="submit"><a th:href="@{/user/review}">レビュー一覧</a></button>
 				  <button type="submit"><a th:href="@{/user/shop/__${shop.getId()}__/review/register}">レビュー投稿</a></button>
 				  <button type="submit"><a th:href="@{/user/shop/__${shop.getId()}__/reservation/register}">予約</a></button>
 <!--				  <form th:action="@{/user/review/__${shop.getId()}__/create}" method="post">-->

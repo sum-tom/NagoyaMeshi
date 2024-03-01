@@ -12,6 +12,17 @@ public interface ShopRepository extends JpaRepository<Shop,Integer>{
 	public List<Shop> findByNameLike(String keyword);
 	public Page<Shop> findByCategoryId(Integer categoryId, Pageable pageable);
 	
+	
+	 public Page<Shop> findByNameLikeOrderByCreatedAtDesc(String Keyword,  Pageable pageable);  
+     public Page<Shop> findByNameLikeOrderByPriceLowerLimitAsc(String Keyword,  Pageable pageable);  
+	
+     
+     public Page<Shop> findByCategoryIdOrderByCreatedAtDesc(Integer categoryId, Pageable pageable);
+     public Page<Shop> findByCategoryIdOrderByPriceLowerLimitAsc(Integer categoryId, Pageable pageable);
+     
+     
+     
+	
 	public Page<Shop> findAllByOrderByCreatedAtDesc(Pageable pageable);
     public Page<Shop> findAllByOrderByPriceLowerLimitAsc(Pageable pageable);  
 

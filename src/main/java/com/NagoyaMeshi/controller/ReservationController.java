@@ -38,7 +38,7 @@ public class ReservationController {
 	    this.shopRepository = shopRepository;
 	    }	
 	
-
+	//Admin
 	@GetMapping("/admin/reservation")
     public String index(Model model,
                         @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable,
@@ -77,6 +77,8 @@ public class ReservationController {
         return "redirect:/admin/reservation";
     }
     
+    
+    //User
     @GetMapping("/user/shop/{id}/reservation/register")
     public String register(@PathVariable("id") Integer shopId,Model model) {
         model.addAttribute("ReservationRegisterForm", new ReservationRegisterForm());
@@ -94,9 +96,26 @@ public class ReservationController {
     	User user = userDetailsImpl.getUser(); 
 	 
     	reservationService.create(shop, user, reservationRegisterForm);
-	 return "redirect:/admin/shop";
+    	return "redirect:/user/reservation";
     }    
     
+    @GetMapping("/user/reservation")
+    public String index(Model model, Pageable pageable,
+			@AuthenticationPrincipal UserDetailsImpl userDetailsImpl){		
+	Page<Reservation> reservationPage = reservationRepository.findAll(pageable);
+	
+		model.addAttribute("reservationPage", reservationPage); 
+
+        return "/user/shop/shop-reservation-list";
+    }
     
+    @PostMapping("/user/reservation/{id}/delete")
+    public String userdelete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {
+        reservationRepository.deleteById(id);
+
+        redirectAttributes.addFlashAttribute("successMessage", "予約を削除しました。");
+
+        return "redirect:/user/reservation";
+    }
     
 }

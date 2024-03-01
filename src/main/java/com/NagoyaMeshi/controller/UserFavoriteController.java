@@ -75,24 +75,9 @@ public class UserFavoriteController {
 	  }}
 	
 	 
-//	 @PostMapping("/user/shop/{shopId}/create")
-//		public String create(@PathVariable(name = "id") Integer id, @AuthenticationPrincipal UserDetailsImpl userDetailsImpl, RedirectAttributes redirectAttributes, Model model) {
-//		 Shop shop = shopRepository.findById(id).orElseThrow(() -> new RuntimeException("Shop not found"));
-//			User user = userDetailsImpl.getUser();
-//			favoriteService.create(shop, user);
-//			redirectAttributes.addFlashAttribute("successMessage", "お気に入りに登録しました。");
-//			
-//			return "redirect:/user/favorite/favorite";
-//		}
+
 	 
 }
 
 
 
-//@GetMapping
-//public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, 
-//		 						  @RequestParam(name = "keyword", required = false) String keyword,
-//		 						 @RequestParam(name = "categoryId", required = false) String categoryId,
-//		 						@AuthenticationPrincipal UserDetailsImpl userDetailsImpl) {
-//	 
-//	User user = userDetailsImpl.getUser();
