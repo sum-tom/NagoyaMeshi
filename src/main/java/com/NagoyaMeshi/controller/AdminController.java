@@ -56,10 +56,10 @@ public class AdminController {
         return "/admin/member/signup";
     }    
 	 
-	 @PostMapping("/signup")
-    public String signup(@ModelAttribute @Validated SignupForm signupForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {      
-        // メールアドレスが登録済みであれば、BindingResultオブジェクトにエラー内容を追加する
-        if (userService.isEmailRegistered(signupForm.getEmail())) {
+	@PostMapping("/signup")
+	 public String create(@ModelAttribute @Validated SignupForm signupForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {        
+	     
+		if (userService.isEmailRegistered(signupForm.getEmail())) {
             FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済みのメールアドレスです。");
             bindingResult.addError(fieldError);                       
         }    
@@ -69,14 +69,14 @@ public class AdminController {
             FieldError fieldError = new FieldError(bindingResult.getObjectName(), "password", "パスワードが一致しません。");
             bindingResult.addError(fieldError);
         }        
-        
-        if (bindingResult.hasErrors()) {
-            return "auth/signup";
-        }
-        
-        userService.create(signupForm);
-        redirectAttributes.addFlashAttribute("successMessage", "会員登録が完了しました。");
-
-        return "redirect:/";
+		
+		if (bindingResult.hasErrors()) {
+	         return "/admin/member/signup";
+	 }
+	 
+	     userService.create(signupForm);
+         redirectAttributes.addFlashAttribute("successMessage", "会員登録が完了しました。");
+	 
+	 return "redirect:/admin/member";
     }    
 }

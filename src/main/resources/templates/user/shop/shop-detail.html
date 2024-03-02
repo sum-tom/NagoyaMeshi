@@ -82,10 +82,7 @@
                   <span class="title">カテゴリー</span>
                   <p class="text" th:text="${shop.getCategory().getName}"></p>
                 </li>
-<!--                <li>-->
-<!--                  <span class="title">レビュー</span>-->
-<!--                  <p class="text">サンプルテキスト</p>-->
-<!--                </li>-->
+
               </ul>
 
               <div class="button-container">
@@ -93,7 +90,7 @@
 				  <form th:action="@{/user/shop/__${shop.getId()}__/create}" method="post">
     				<button type="submit">お気に入りに追加</button>
 				  </form>
-				  <button type="submit"><a th:href="@{/user/review}">レビュー一覧</a></button>
+				  <button type="submit"><a th:href="@{/user/review/__${shop.getId()}__}">レビュー一覧</a></button>
 				  <button type="submit"><a th:href="@{/user/shop/__${shop.getId()}__/review/register}">レビュー投稿</a></button>
 				  <button type="submit"><a th:href="@{/user/shop/__${shop.getId()}__/reservation/register}">予約</a></button>
 <!--				  <form th:action="@{/user/review/__${shop.getId()}__/create}" method="post">-->

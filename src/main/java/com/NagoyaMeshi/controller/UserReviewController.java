@@ -34,14 +34,17 @@ private final ReviewService reviewService;
 	    this.shopRepository = shopRepository; 
 	}
 	
-	@GetMapping("/user/review")
-	public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {	
+	@GetMapping("/user/review/{id}")
+	public String index(@PathVariable(name = "id") Integer id,Model model, 
+						@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {	
 		 Page<Review> reviewPage = reviewRepository.findAll(pageable);
-  	 
+		 Shop shop = shopRepository.getReferenceById(id);
+	        
+         model.addAttribute("shop", shop);   
 		 model.addAttribute("reviewPage", reviewPage);
       
       
-      return "/user/review/review";
+      return "/user/review/{id}";
   }  
 	
 
@@ -65,7 +68,7 @@ private final ReviewService reviewService;
 	        User user = userDetailsImpl.getUser(); 
 
 	        reviewService.create(shop, user, reviewForm);
-	        return "redirect:/user/review" ;
+	        return "redirect:/user/review/{id}" ;
 	    }
 	
 	
