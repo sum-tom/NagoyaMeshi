@@ -44,7 +44,7 @@ private final ReviewService reviewService;
 		 model.addAttribute("reviewPage", reviewPage);
       
       
-      return "/user/review/{id}";
+		 return "user/review/review";
   }  
 	
 
@@ -53,7 +53,7 @@ private final ReviewService reviewService;
 	        model.addAttribute("reviewForm", new ReviewForm());
 	        model.addAttribute("shopId", shopId);
 	        
-	        return "/user/review/review-post" ;
+	        return "user/review/review-post" ;
 	    } 
 	
 	
