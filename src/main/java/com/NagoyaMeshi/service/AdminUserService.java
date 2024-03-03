@@ -1,4 +1,5 @@
 package com.NagoyaMeshi.service;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,24 +10,22 @@ import com.NagoyaMeshi.form.SignupForm;
 import com.NagoyaMeshi.form.UserEditForm;
 import com.NagoyaMeshi.repository.RoleRepository;
 import com.NagoyaMeshi.repository.UserRepository;
-
 @Service
-public class UserService {
-    private final UserRepository userRepository;
+public class AdminUserService {
+	private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
     
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AdminUserService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;        
         this.passwordEncoder = passwordEncoder;
     }    
-    
-    //会員登録
+	//管理者登録
     @Transactional
     public User create(SignupForm signupForm) {
         User user = new User();
-        Role role = roleRepository.findByName("ROLE_GENERAL");
+        Role role = roleRepository.findByName("ROLE_ADMIN");
         
         user.setName(signupForm.getName());
         user.setFurigana(signupForm.getFurigana());
@@ -36,47 +35,12 @@ public class UserService {
         user.setEmail(signupForm.getEmail());
         user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
         user.setRole(role);
-        user.setEnabled(false);      
+        user.setEnabled(true);      
         
         return userRepository.save(user);
     } 
     
-//    //管理者登録
-//    @Transactional
-//    public User adminCreate(SignupForm signupForm) {
-//        User user = new User();
-//        Role role = roleRepository.findByName("ROLE_ADMIN");
-//        
-//        user.setName(signupForm.getName());
-//        user.setFurigana(signupForm.getFurigana());
-//        user.setPostalCode(signupForm.getPostalCode());
-//        user.setAddress(signupForm.getAddress());
-//        user.setPhoneNumber(signupForm.getPhoneNumber());
-//        user.setEmail(signupForm.getEmail());
-//        user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
-//        user.setRole(role);
-//        user.setEnabled(true);      
-//        
-//        return userRepository.save(user);
-//    } 
-    
-    //会員情報編集
-    @Transactional
-    public void update(UserEditForm userEditForm) {
-        User user = userRepository.getReferenceById(userEditForm.getId());
-        
-        user.setName(userEditForm.getName());
-        user.setFurigana(userEditForm.getFurigana());
-        user.setPostalCode(userEditForm.getPostalCode());
-        user.setAddress(userEditForm.getAddress());
-        user.setPhoneNumber(userEditForm.getPhoneNumber());
-        user.setEmail(userEditForm.getEmail());      
-        
-        userRepository.save(user);
-    }    
-    
-    
-    // メールアドレスが登録済みかどうかをチェックする
+ // メールアドレスが登録済みかどうかをチェックする
     public boolean isEmailRegistered(String email) {
         User user = userRepository.findByEmail(email);  
         return user != null;
@@ -102,4 +66,3 @@ public class UserService {
     }  
     
 }
-

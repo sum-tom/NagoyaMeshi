@@ -42,7 +42,7 @@
               </nav>
             
         
-            <form method="get" th:action="@{/shop}" > 
+            <form method="get" th:action="@{/user/shop}" > 
                  <input th:if="${keyword}" type="hidden" name="keyword" th:value="${keyword}">
                  <select  name="order" onChange="this.form.submit();">
                      <option value="createdAtDesc" th:selected="${order == 'createdAtDesc' || order == null}">新着順</option>                                            

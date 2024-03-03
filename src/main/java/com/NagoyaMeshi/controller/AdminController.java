@@ -17,21 +17,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.NagoyaMeshi.entity.User;
+import com.NagoyaMeshi.event.SignupEventPublisher;
 import com.NagoyaMeshi.form.SignupForm;
 import com.NagoyaMeshi.repository.UserRepository;
-import com.NagoyaMeshi.service.UserService;
+import com.NagoyaMeshi.service.AdminUserService;
+import com.NagoyaMeshi.service.VerificationTokenService;
 
 @Controller
 @RequestMapping("/admin/member")
 public class AdminController {
 
-	private final UserService userService;    
-
+	private final AdminUserService adminUserService;    
+	 private final SignupEventPublisher signupEventPublisher;
+	 private final VerificationTokenService verificationTokenService;
 	
 	private final UserRepository userRepository;
-	public AdminController(UserRepository userRepository,UserService userService) {
-        this.userRepository = userRepository; 
-        this.userService = userService;
+	public AdminController(UserRepository userRepository,
+							AdminUserService adminUserService,
+							SignupEventPublisher signupEventPublisher,
+							VerificationTokenService verificationTokenService) {        
+        
+        this.signupEventPublisher = signupEventPublisher;
+        this.verificationTokenService = verificationTokenService;
+        this.adminUserService = adminUserService;
+        this.userRepository = userRepository;
+        
     }
 	
 	
@@ -59,15 +69,15 @@ public class AdminController {
     }    
 	 
 	@PostMapping("/signup")
-	 public String create(@ModelAttribute @Validated SignupForm signupForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {        
+	 public String Create(@ModelAttribute @Validated SignupForm signupForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {        
 	     
-		if (userService.isEmailRegistered(signupForm.getEmail())) {
+		if (adminUserService.isEmailRegistered(signupForm.getEmail())) {
             FieldError fieldError = new FieldError(bindingResult.getObjectName(), "email", "すでに登録済みのメールアドレスです。");
             bindingResult.addError(fieldError);                       
         }    
         
         // パスワードとパスワード（確認用）の入力値が一致しなければ、BindingResultオブジェクトにエラー内容を追加する
-        if (!userService.isSamePassword(signupForm.getPassword(), signupForm.getPasswordConfirmation())) {
+        if (!adminUserService.isSamePassword(signupForm.getPassword(), signupForm.getPasswordConfirmation())) {
             FieldError fieldError = new FieldError(bindingResult.getObjectName(), "password", "パスワードが一致しません。");
             bindingResult.addError(fieldError);
         }        
@@ -76,7 +86,7 @@ public class AdminController {
 	         return "/admin/member/signup";
 	 }
 	 
-	     userService.create(signupForm);
+		adminUserService.create(signupForm);
          redirectAttributes.addFlashAttribute("successMessage", "会員登録が完了しました。");
 	 
 	 return "redirect:/admin/member";

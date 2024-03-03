@@ -68,6 +68,8 @@ public class AuthController {
          return "redirect:/";
      }    
 	 
+
+	 
 	 
 	 @GetMapping("/signup/verify")
      public String verify(@RequestParam(name = "token") String token, Model model) {
