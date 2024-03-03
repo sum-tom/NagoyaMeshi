@@ -37,9 +37,10 @@ private final ReviewService reviewService;
 	@GetMapping("/user/review/{id}")
 	public String index(@PathVariable(name = "id") Integer id,Model model, 
 						@PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable) {	
-		 Page<Review> reviewPage = reviewRepository.findAll(pageable);
-		 Shop shop = shopRepository.getReferenceById(id);
-	        
+		 
+		 Shop shop = shopRepository.findById(id).orElseThrow(); 
+		 Page<Review> reviewPage = reviewRepository.findByShop(shop, pageable);  
+		 
          model.addAttribute("shop", shop);   
 		 model.addAttribute("reviewPage", reviewPage);
       

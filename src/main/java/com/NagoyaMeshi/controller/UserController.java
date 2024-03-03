@@ -20,6 +20,8 @@ import com.NagoyaMeshi.repository.VerificationTokenRepository;
 import com.NagoyaMeshi.security.UserDetailsImpl;
 import com.NagoyaMeshi.service.UserService;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping("/user/member")
 public class UserController {
@@ -76,7 +78,11 @@ public class UserController {
     }
     
     @GetMapping("/withdrawal/delete")
-    public String delete(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, RedirectAttributes redirectAttributes) {        
+    public String delete(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl,
+    											RedirectAttributes redirectAttributes,
+    											HttpServletResponse response) {        
+    	
+    	
     	User user = userDetailsImpl.getUser();
     	
     	// 関連するVerificationTokenを削除
@@ -87,6 +93,7 @@ public class UserController {
         
         userRepository.delete(user);
         
+     
         redirectAttributes.addFlashAttribute("successMessage", "退会しました。");
         return "redirect:/login";
     }
