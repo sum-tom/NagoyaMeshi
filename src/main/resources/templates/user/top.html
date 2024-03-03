@@ -53,7 +53,7 @@
 									 
 									 <a class="dropdown-item " th:href="@{/user/member/edit}">会員情報</a>  
                                  	 <a class="dropdown-item " th:href="@{/user/favorite/favorite}">お気に入り</a>
-                                 	 <a class="dropdown-item " th:href="@{/user/member/edit}">会員情報</a>
+                                 	 <a class="dropdown-item " th:href="@{/user/member/withdrawal}">退会</a>
                                  	 
                                  		<div class="dropdown-divider"></div>
 									                                                                 
@@ -107,7 +107,7 @@
             <!--cover-->    
             <section class="cover">
               <div class="cover-container">
-                <img src="images\cover\cover1.jpg">
+                <img th:src="@{/images/cover/cover1.jpg}">
               </div>
             </section>
 
@@ -128,9 +128,25 @@
                   <h3>おすすめ</h3>
                 </div>
                   <div class="recommendation-body">
-                    <div class="recommendation-item"><img src="images\image1.jpg"><a href="">おすすめ海鮮</a></div>
-                    <div class="recommendation-item"><img src="images\image2.jpg"><a href="">おすすめ蕎麦</a></div>
-                    <div class="recommendation-item"><img src="images\image3.jpg"><a href="">おすすめ肉料理</a></div>
+					  
+<!--					<a th:href="@{/user/shop/__${shop.getId()}__}">-->
+<!--                    	<div class="recommendation-item">-->
+<!--							<img th:src="@{/storage/__${shop.getImageName()}__}"  alt="店舗画像">-->
+<!--						</div>-->
+<!--					</a>-->
+					
+<!--					<a th:href="@{/user/shop/__${shop.getId()}__}">-->
+<!--                    	<div class="recommendation-item">-->
+<!--							<img th:src="@{/storage/__${shop.getImageName()}__}"  alt="店舗画像">-->
+<!--						</div>-->
+<!--					</a>-->
+					
+<!--					<a th:href="@{/user/shop/__${shop.getId()}__}">-->
+<!--                    	<div class="recommendation-item">-->
+<!--							<img th:src="@{/storage/__${shop.getImageName()}__}"  alt="店舗画像">-->
+<!--						</div>-->
+<!--					</a>-->
+                    
                   </div>
               </div>
             </section>      

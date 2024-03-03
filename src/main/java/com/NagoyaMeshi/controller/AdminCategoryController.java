@@ -32,7 +32,8 @@ public class AdminCategoryController {
     this.categoryRepository = categoryRepository; 
     this.categoryService = categoryService;
 }
-		
+	
+	 //カテゴリー一覧 検索
 	 @GetMapping
 	 public String index(Model model, @PageableDefault(page = 0, size = 10, sort = "id", direction = Direction.ASC) Pageable pageable, @RequestParam(name = "keyword", required = false) String keyword) {
 		 Page<Category> categoryPage;
@@ -48,6 +49,7 @@ public class AdminCategoryController {
 	        return "/admin/category/category-list";
 	    } 
 	 
+	 //カテゴリー削除
 	 @PostMapping("/{id}/delete")
 	    public String delete(@PathVariable(name = "id") Integer id, RedirectAttributes redirectAttributes) {        
 		 categoryRepository.deleteById(id);
@@ -57,12 +59,14 @@ public class AdminCategoryController {
 	        return "redirect:/admin/category";
 	    } 
 	 
+	 //カテゴリー登録画面
 	 @GetMapping("/register")
      public String register(Model model) {
          model.addAttribute("categoryRegisterForm", new CategoryRegisterForm());
          return "admin/category/register";
      } 
 	 
+	 //カテゴリー登録
 	 @PostMapping("/create")
      public String create(@ModelAttribute @Validated CategoryRegisterForm categoryRegisterForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {        
          if (bindingResult.hasErrors()) {
@@ -75,6 +79,7 @@ public class AdminCategoryController {
          return "redirect:/admin/category";
      }  
 	 
+	 //カテゴリー編集画面
 	 @GetMapping("/{id}/edit")
 	 public String edit(@PathVariable(name = "id") int id, Model model) {
 		 Category category = categoryRepository.getReferenceById(id);
@@ -85,6 +90,7 @@ public class AdminCategoryController {
 	     return "admin/category/edit";
 	 }
 	 
+	//カテゴリー編集登録
 	 @PostMapping("/{id}/update")
      public String update(@ModelAttribute @Validated CategoryEditForm categoryEditForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {        
          if (bindingResult.hasErrors()) {

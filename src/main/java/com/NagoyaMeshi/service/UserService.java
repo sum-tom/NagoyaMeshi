@@ -22,6 +22,7 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }    
     
+    //会員登録
     @Transactional
     public User create(SignupForm signupForm) {
         User user = new User();
@@ -35,11 +36,12 @@ public class UserService {
         user.setEmail(signupForm.getEmail());
         user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
         user.setRole(role);
-        user.setEnabled(true);        
+        user.setEnabled(false);      
         
         return userRepository.save(user);
     } 
     
+    //会員情報編集
     @Transactional
     public void update(UserEditForm userEditForm) {
         User user = userRepository.getReferenceById(userEditForm.getId());
@@ -67,7 +69,7 @@ public class UserService {
     }
     
     
- // ユーザーを有効にする
+    // メール認証 ユーザーを有効にする
     @Transactional
     public void enableUser(User user) {
         user.setEnabled(true); 

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.NagoyaMeshi.entity.User;
+import com.NagoyaMeshi.entity.VerificationToken;
 import com.NagoyaMeshi.form.UserEditForm;
 import com.NagoyaMeshi.repository.UserRepository;
+import com.NagoyaMeshi.repository.VerificationTokenRepository;
 import com.NagoyaMeshi.security.UserDetailsImpl;
 import com.NagoyaMeshi.service.UserService;
 
@@ -23,11 +25,13 @@ import com.NagoyaMeshi.service.UserService;
 public class UserController {
     private final UserRepository userRepository;
     private final UserService userService; 
-    
-    public UserController(UserRepository userRepository, UserService userService) {
-        this.userRepository = userRepository; 
-         this.userService = userService;        
-    }    
+    private final VerificationTokenRepository verificationTokenRepository;
+
+    public UserController(UserRepository userRepository, UserService userService, VerificationTokenRepository verificationTokenRepository) {
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.verificationTokenRepository = verificationTokenRepository;
+    }
     
     @GetMapping
     public String index(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, Model model) {         
@@ -65,5 +69,27 @@ public class UserController {
         
         return "redirect:/user/member";
     }    
+    
+    @GetMapping("/withdrawal")
+    public String withdrawl() {
+        return "/user/member/withdrawal";
+    }
+    
+    @GetMapping("/withdrawal/delete")
+    public String delete(@AuthenticationPrincipal UserDetailsImpl userDetailsImpl, RedirectAttributes redirectAttributes) {        
+    	User user = userDetailsImpl.getUser();
+    	
+    	// 関連するVerificationTokenを削除
+        VerificationToken verificationToken = verificationTokenRepository.findByUser(user);
+        if (verificationToken != null) {
+            verificationTokenRepository.delete(verificationToken);
+        }
+        
+        userRepository.delete(user);
+        
+        redirectAttributes.addFlashAttribute("successMessage", "退会しました。");
+        return "redirect:/login";
+    }
+
     
 }

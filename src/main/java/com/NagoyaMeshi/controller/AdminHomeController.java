@@ -4,7 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AdminHomeController {
-    @GetMapping("/admin")
+    
+	//管理者TOP画面
+	@GetMapping("/admin")
     public String index() {
         return "/admin/admin-top";
     }   
