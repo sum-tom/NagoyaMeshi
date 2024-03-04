@@ -6,7 +6,10 @@
 </head>
 <body>
     <h2>Password Reset Request</h2>
-
+    
+		<div th:if="${successMessage}" class="alert alert-info">
+            <span th:text="${successMessage}"></span>
+        </div> 
  
     <div th:if="${param.success}">
         <p>メールが正常に送信されました。</p>

@@ -1,5 +1,7 @@
 package com.NagoyaMeshi.service;
 
+import java.util.Optional;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +44,9 @@ public class AdminUserService {
     
  // メールアドレスが登録済みかどうかをチェックする
     public boolean isEmailRegistered(String email) {
-        User user = userRepository.findByEmail(email);  
-        return user != null;
-    }    
+        Optional<User> user = userRepository.findByEmail(email);  
+        return user.isPresent();
+    }
     
     // パスワードとパスワード（確認用）の入力値が一致するかどうかをチェックする
     public boolean isSamePassword(String password, String passwordConfirmation) {

@@ -1,9 +1,15 @@
 package com.NagoyaMeshi.service;
+import java.time.LocalDateTime;
+import java.util.Optional;
+import java.util.UUID;
+
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.NagoyaMeshi.entity.PasswordResetToken;
 import com.NagoyaMeshi.entity.Role;
 import com.NagoyaMeshi.entity.User;
 import com.NagoyaMeshi.form.SignupForm;
@@ -11,8 +17,6 @@ import com.NagoyaMeshi.form.UserEditForm;
 import com.NagoyaMeshi.repository.PasswordResetTokenRepository;
 import com.NagoyaMeshi.repository.RoleRepository;
 import com.NagoyaMeshi.repository.UserRepository;
-
-
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -72,9 +76,9 @@ public class UserService {
     
     // メールアドレスが登録済みかどうかをチェックする
     public boolean isEmailRegistered(String email) {
-        User user = userRepository.findByEmail(email);  
-        return user != null;
-    }    
+        Optional<User> user = userRepository.findByEmail(email);  
+        return user.isPresent();
+    }
     
     // パスワードとパスワード（確認用）の入力値が一致するかどうかをチェックする
     public boolean isSamePassword(String password, String passwordConfirmation) {
@@ -95,65 +99,62 @@ public class UserService {
         return !userEditForm.getEmail().equals(currentUser.getEmail());      
     }  
     
-   
-//    @Transactional
-//    public void requestPasswordReset(String email) {
-//        User user = userRepository.findByEmail(email);
-//        if (user != null) {
-//            // トークンの生成と有効期限の設定
-//            String token = generateUniqueToken();
-//            LocalDateTime expiryDate = LocalDateTime.now().plusHours(1);
-//
-//            // PasswordResetTokenエンティティの作成と保存
-//            PasswordResetToken resetToken = new PasswordResetToken();
-//            resetToken.setToken(token);
-//            resetToken.setUser(user);
-//            resetToken.setExpiryDate(expiryDate);
-//            passwordResetTokenRepository.save(resetToken);
-//
-//            // メールの送信
-//            sendPasswordResetEmail(user.getEmail(), token);
-//        }
-//    }
-//    
-//    
-//    
-//    @Transactional
-//    public void resetPassword(String token, String newPassword) {
-//        // トークンの検証
-//        PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token);
-//        if (resetToken != null && !resetToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-//            // 有効期限内の場合、パスワードを更新
-//            User user = resetToken.getUser();
-//            user.setPassword(passwordEncoder.encode(newPassword));
-//            userRepository.save(user);
-//
-//            // リセットトークンの削除
-//            passwordResetTokenRepository.delete(resetToken);
-//        } else {
-//            // トークンが無効または有効期限切れの場合、適切な処理を行う
-//        	 throw new RuntimeException("Invalid or expired reset token");
-//        }
-//    }
-//
-//    private String generateUniqueToken() {
-//        // 実際のトークン生成ロジックに置き換える（例: UUID.randomUUID().toString()）
-//        return UUID.randomUUID().toString();
-//    }
-//
-//    private void sendPasswordResetEmail(String email, String token) {
-//        try {
-//            SimpleMailMessage message = new SimpleMailMessage();
-//            message.setTo(email);
-//            message.setSubject("Password Reset");
-//            message.setText("Click the following link to reset your password: http://your-app-url/reset?token=" + token);
-//
-//            javaMailSender.send(message);
-//        } catch (MailException ex) {
-////             ログにエラーを記録
-//            logger.error("Failed to send password reset email", ex);
-//        }
-//    }
+    
+    
+    // パスワードリセットトークンの生成とメール送信
+    @Transactional
+    public boolean createPasswordResetTokenForUserAndSendEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);  
+        if (!userOptional.isPresent()) {
+            return false; // ユーザーが見つからない場合は、falseを返す
+        }
+
+        User user = userOptional.get();
+        String token = UUID.randomUUID().toString();
+        LocalDateTime expiryDate = LocalDateTime.now().plusHours(24); // 24時間後に有効期限が切れる
+
+        PasswordResetToken myToken = new PasswordResetToken();
+        myToken.setUser(user);
+        myToken.setToken(token);
+        myToken.setExpiryDate(expiryDate);
+
+        passwordResetTokenRepository.save(myToken);
+
+        sendPasswordResetEmail(user.getEmail(), token);
+        return true; // 処理が成功した場合はtrueを返す
+    }
+
+    // パスワードリセットメールの送信
+    private void sendPasswordResetEmail(String email, String token) {
+        String subject = "パスワード再設定リンク";
+        String passwordResetUrl = "http://localhost:8080/password-reset/reset?token=" + token;
+        String message = "パスワードを再設定するには、以下のリンクをクリックしてください: " + passwordResetUrl;
+
+        SimpleMailMessage emailMessage = new SimpleMailMessage();
+        emailMessage.setFrom("tomatomatover@gmail.com");
+        emailMessage.setTo(email);
+        emailMessage.setSubject(subject);
+        emailMessage.setText(message);
+
+        javaMailSender.send(emailMessage);
+    }
+    
+    @Transactional
+    public boolean resetPassword(String token, String newPassword) {
+        return passwordResetTokenRepository.findByToken(token)
+                .map(tokenEntity -> {
+                    User user = tokenEntity.getUser();
+                    if (tokenEntity.getExpiryDate().isBefore(LocalDateTime.now())) {
+                        return false; // トークンの有効期限が切れている場合
+                    }
+                    String encodedPassword = passwordEncoder.encode(newPassword);
+                    user.setPassword(encodedPassword);
+                    userRepository.save(user);
+                    passwordResetTokenRepository.delete(tokenEntity); // トークンを使用済みとして削除
+                    return true;
+                })
+                .orElse(false); // トークンが見つからない場合
+    }
     
 }
 
