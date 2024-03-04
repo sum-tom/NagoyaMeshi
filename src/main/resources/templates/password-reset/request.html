@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Password Reset Request</title>
+</head>
+<body>
+    <h2>Password Reset Request</h2>
+
+ 
+    <div th:if="${param.success}">
+        <p>メールが正常に送信されました。</p>
+    </div>
+
+    <form th:action="@{/password-reset/request}" method="post">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <button type="submit">Request Password Reset</button>
+    </form>
+</body>
+</html>

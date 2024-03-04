@@ -124,7 +124,11 @@
                 </li>
               </ul>
 
-              <a href="/">パスワード忘れた場合</a>
+              
+				
+                 <a th:href="@{/password-reset/request}" sec:authorize="isAnonymous()">パスワード忘れた場合</a>
+                 
+
 
               <div class="button-container">
                 <button class="button" type="submit" >ログイン</button>

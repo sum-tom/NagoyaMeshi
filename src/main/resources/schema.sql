@@ -100,6 +100,15 @@ CREATE TABLE IF NOT EXISTS favorites  (
  );
  
  
+ CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(255) UNIQUE NOT NULL,
+    user_id INT NOT NULL,
+    expiry_date DATETIME NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+ 
+ 
  CREATE TABLE IF NOT EXISTS company (
      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
      name VARCHAR(50) NOT NULL,
