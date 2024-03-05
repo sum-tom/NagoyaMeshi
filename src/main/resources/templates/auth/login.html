@@ -18,11 +18,9 @@
         <!-- ヘッダー -->
         <header class="header">
           <div class="header-container">
-              <h1><a href="">NagoyaMeshi</a></h1>
+              <h1><a th:href="@{/user/}">NagoyaMeshi</a></h1>
               <div class="button-container">
 				  
-<!--                <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>-->
-<!--                <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>-->
 
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                          <span class="navbar-toggler-icon"></span>
@@ -32,10 +30,10 @@
                          <ul class="navbar-nav ms-auto">    
 							 
                              <!-- 未ログインであれば表示する -->
-                             <li class="buttonn nav-item" sec:authorize="isAnonymous()">
+                             <li class="nav-item" sec:authorize="isAnonymous()">
                                  <a class="nav-link" th:href="@{/login}">ログイン</a>
                              </li>                                                      
-                     		 <li class="buttonn av-item" sec:authorize="isAnonymous()">
+                     		 <li class="nav-item" sec:authorize="isAnonymous()">
                                  <a class="nav-link" th:href="@{/signup}">会員登録</a>
                              </li> 
                              <!-- ログイン済みであれば表示する --> 
@@ -50,7 +48,8 @@
 									 
 									 <a class="dropdown-item " th:href="@{/user/member/edit}">会員情報</a>  
                                  	 <a class="dropdown-item " th:href="@{/user/favorite/favorite}">お気に入り</a>
-                                 	 <a class="dropdown-item " th:href="@{/user/member/edit}">会員情報</a>
+                                 	 <a class="dropdown-item " th:href="@{/user/credit/registration}">有料会員登録</a>
+                                 	 <a class="dropdown-item " th:href="@{/user/member/withdrawal}">退会</a>
                                  	 
                                  		<div class="dropdown-divider"></div>
 									                                                                 
@@ -127,7 +126,7 @@
               
 				
                  <a th:href="@{/password-reset/request}" sec:authorize="isAnonymous()">パスワード忘れた場合</a>
-                 
+<!--                 <a href="https://buy.stripe.com/test_aEU6qP9cvcli6Na144">Product Name</a>-->
 
 
               <div class="button-container">

@@ -21,11 +21,9 @@
         <!-- ヘッダー -->
         <header class="header">
           <div class="header-container">
-              <h1><a href="">NagoyaMeshi</a></h1>
+              <h1><a th:href="@{/user/}">NagoyaMeshi</a></h1>
               <div class="button-container">
 				  
-<!--                <button class="button" type="button" onclick="location.href='login.html'">ログイン</button>-->
-<!--                <button class="button" type="button" onclick="location.href='new-member-registration.html'">会員登録</button>-->
 
 					<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                          <span class="navbar-toggler-icon"></span>
@@ -53,6 +51,7 @@
 									 
 									 <a class="dropdown-item " th:href="@{/user/member/edit}">会員情報</a>  
                                  	 <a class="dropdown-item " th:href="@{/user/favorite/favorite}">お気に入り</a>
+                                 	 <a class="dropdown-item " th:href="@{/user/credit/registration}">有料会員登録</a>
                                  	 <a class="dropdown-item " th:href="@{/user/member/withdrawal}">退会</a>
                                  	 
                                  		<div class="dropdown-divider"></div>

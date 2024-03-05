@@ -29,7 +29,7 @@ public class PasswordResetController {
     public String showResetForm(@RequestParam("token") String token, RedirectAttributes redirectAttributes) {
         String result = tokenService.validatePasswordResetToken(token);
         if (!result.equals("valid")) {
-        	redirectAttributes.addFlashAttribute("error", "Invalid or expired token.");
+        	redirectAttributes.addFlashAttribute("error", "トークンが期限切れ");
             return "redirect:/password-reset/request?error=true";
         }
         redirectAttributes.addFlashAttribute("token", token);
@@ -45,7 +45,7 @@ public class PasswordResetController {
 
         boolean resetResult = userService.resetPassword(token, password);
         if (!resetResult) {
-        	redirectAttributes.addFlashAttribute("error", "Could not reset password.");
+        	redirectAttributes.addFlashAttribute("error", "パスワードのリセットに失敗しました");
             return "redirect:/password-reset/reset?error=true&token=" + token;
         }
 
