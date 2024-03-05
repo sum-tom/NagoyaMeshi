@@ -19,6 +19,7 @@ public class PasswordResetTokenService {
         this.userRepository = userRepository;
     }
 
+    //トークンの作成
     public String createPasswordResetTokenForUser(String email, String token) {
         return userRepository.findByEmail(email)
                 .map(user -> {
@@ -33,14 +34,16 @@ public class PasswordResetTokenService {
                 .orElse(null); // ユーザーが見つからない場合はnullを返す
     }
 
+    
+    //トークンの検証
     public String validatePasswordResetToken(String token) {
         return passwordResetTokenRepository.findByToken(token)
                 .map(tokenEntity -> {
                     if (tokenEntity.getExpiryDate().isBefore(LocalDateTime.now())) {
-                        return "expired";
+                        return "expired";//期限切れ
                     }
-                    return "valid";
+                    return "valid";//有効
                 })
-                .orElse("invalid");
+                .orElse("invalid");//無効
     }
 }

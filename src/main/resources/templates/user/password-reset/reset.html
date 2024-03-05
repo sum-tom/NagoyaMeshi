@@ -7,9 +7,8 @@
 <body>
     <h2>Password Reset</h2>
 
-    <!-- Show an error message if the token is invalid or expired -->
     <div th:if="${param.error}">
-        <p style="color: red;">Invalid or expired password reset token. Please request a new one.</p>
+        <p>パスワードリセットトークンが無効または期限切れ</p>
     </div>
 
     <form action="/password-reset/reset" method="post">

@@ -25,7 +25,7 @@ public class PasswordResetController {
         this.tokenService = tokenService;
     }
 
-    @GetMapping("/reset")
+    @GetMapping("/reset")//パスワードリセットフォームの表示
     public String showResetForm(@RequestParam("token") String token, RedirectAttributes redirectAttributes) {
         String result = tokenService.validatePasswordResetToken(token);
         if (!result.equals("valid")) {
@@ -36,7 +36,7 @@ public class PasswordResetController {
         return "password-reset/reset";
     }
 
-    @PostMapping("/reset")
+    @PostMapping("/reset")//パスワードのリセット
     public String resetPassword(@RequestParam("token") String token, @RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword, RedirectAttributes redirectAttributes) {
         if (!password.equals(confirmPassword)) {
         	redirectAttributes.addFlashAttribute("error", "Passwords do not match.");
@@ -52,12 +52,15 @@ public class PasswordResetController {
         return "redirect:/login?resetSuccess=true";
     }
     
-    @GetMapping("/request")
+    
+    
+    
+    @GetMapping("/request")//パスワードリセットリクエストフォームの表示
     public String showPasswordResetRequestForm() {
         return "password-reset/request"; // パスワードリセットリクエストのフォームへのパス
     }
 
-    @PostMapping("/request")
+    @PostMapping("/request")//パスワードリセットリクエストの処理
     public String processResetPasswordRequest(@RequestParam("email") String email, RedirectAttributes redirectAttributes) {
         // パスワードリセット処理（メール送信など）
         boolean result = userService.createPasswordResetTokenForUserAndSendEmail(email);

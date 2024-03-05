@@ -110,7 +110,7 @@ public class UserService {
         }
 
         User user = userOptional.get();
-        String token = UUID.randomUUID().toString();
+        String token = UUID.randomUUID().toString();//ランダムなUUIDをトークンとして生成
         LocalDateTime expiryDate = LocalDateTime.now().plusHours(24); // 24時間後に有効期限が切れる
 
         PasswordResetToken myToken = new PasswordResetToken();
