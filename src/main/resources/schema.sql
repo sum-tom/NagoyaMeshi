@@ -69,7 +69,7 @@
  );
 
 CREATE TABLE IF NOT EXISTS favorites  (
-     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     id INT NOT NULL AUTO_INCREMENT PRIMARY KEY UNIQUE,
      shop_id INT NOT NULL,
      user_id INT NOT NULL,
      created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -106,6 +106,17 @@ CREATE TABLE IF NOT EXISTS favorites  (
     user_id INT NOT NULL,
     expiry_date DATETIME NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+ 
+ 
+ CREATE TABLE IF NOT EXISTS stripe_customers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    stripe_customer_id VARCHAR(255) NOT NULL,
+    user_id INT UNIQUE,
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+        REFERENCES users(id)
+        ON DELETE CASCADE
 );
  
  

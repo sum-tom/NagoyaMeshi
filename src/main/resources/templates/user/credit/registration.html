@@ -1,0 +1,92 @@
+		<!DOCTYPE html>
+		<html lang="ja">
+		<head>
+		    <meta charset="UTF-8">
+		    <title>クレジットカード情報入力</title>
+		    <script src="https://js.stripe.com/v3/"></script>
+		    <style>
+		        /* 必要に応じてスタイルを追加 */
+		        .StripeElement {
+		          margin-bottom: 10px;
+		        }
+		    </style>
+		</head>
+		<body>
+		    <form id="payment-form">
+		      <input type="text" id="card-name" placeholder="カード名義" required>
+		      <div id="card-number"></div>
+		      <div id="card-expiry"></div>
+		      <div id="card-cvc"></div>
+		      <button type="submit">支払う</button>
+		      <div id="card-errors" role="alert"></div>
+		    </form>
+		    
+		<script>
+		   var stripe = Stripe('pk_test_51OHnhDFrWKO0sh5Q0j7HKztqZI544e306rcG7lUHW4pVDuUHtGVuEuaq8TAyecDfD0MgEOqkAOoD5Xr8TIAShBS300DQWbg3Fn');
+		   var elements = stripe.elements();
+		
+		   var style = {
+		       base: {
+		         color: "#32325d",
+		       }
+		     };
+		
+		   // 個別のElementsを作成
+		   var cardNumber = elements.create("cardNumber", { style: style });
+		   var cardExpiry = elements.create("cardExpiry", { style: style });
+		   var cardCvc = elements.create("cardCvc", { style: style });
+		
+		   // Elementsをマウント
+		   cardNumber.mount("#card-number");
+		   cardExpiry.mount("#card-expiry");
+		   cardCvc.mount("#card-cvc");
+		
+		   // エラーメッセージの表示処理
+		   function handleChange({error}) {
+		       var displayError = document.getElementById('card-errors');
+		       if (error) {
+		         displayError.textContent = error.message;
+		       } else {
+		         displayError.textContent = '';
+		       }
+		     }
+		
+		   cardNumber.addEventListener('change', handleChange);
+		   cardExpiry.addEventListener('change', handleChange);
+		   cardCvc.addEventListener('change', handleChange);
+		
+		   var form = document.getElementById('payment-form');
+		
+		   form.addEventListener('submit', function(ev) {
+		     ev.preventDefault();
+		
+		     // カード名義を追加データとしてトークン作成時に利用
+		     var additionalData = {
+		       name: document.getElementById('card-name').value
+		     };
+		
+		     stripe.createToken(cardNumber, additionalData).then(function(result) {
+		       if (result.error) {
+		         var errorElement = document.getElementById('card-errors');
+		         errorElement.textContent = result.error.message;
+		       } else {
+		         stripeTokenHandler(result.token);
+		       }
+		     });
+		   });
+		
+		   function stripeTokenHandler(token) {
+		     var form = document.getElementById('payment-form');
+		     var hiddenInput = document.createElement('input');
+		     hiddenInput.setAttribute('type', 'hidden');
+		     hiddenInput.setAttribute('name', 'stripeToken');
+		     hiddenInput.setAttribute('value', token.id);
+		     form.appendChild(hiddenInput);
+		
+		     // ここでフォームをサブミット
+		     // form.submit(); // サーバーへの送信を行う場合はこのコメントを解除
+		   }
+		</script>
+		
+		</body>
+		</html>

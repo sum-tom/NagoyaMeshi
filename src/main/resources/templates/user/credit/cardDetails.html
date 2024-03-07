@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Credit Card Details</title>
+    <!-- 必要に応じてCSSやJavaScriptのリンクを追加 -->
+</head>
+<body>
+    <h1>Credit Card Information</h1>
+
+    <!-- クレジットカード情報の表示 -->
+    <div th:if="${customer != null}">
+        <h2>Card Details</h2>
+        <!-- Stripeの顧客オブジェクトからデフォルトの支払い方法を取得して表示 -->
+        <div th:each="card : ${customer.sources.data}">
+            <p>Card Brand: <span th:text="${card.brand}">Brand</span></p>
+            <p>Last 4 Digits: <span th:text="${card.last4}">1234</span></p>
+            <p>Expiration Date: <span th:text="${card.exp_month}">MM</span>/<span th:text="${card.exp_year}">YYYY</span></p>
+        </div>
+    </div>
+
+    <div th:if="${customer == null}">
+        <p>No credit card information available.</p>
+    </div>
+
+    <!-- その他のコンテンツやリンクなど -->
+
+</body>
+</html>
