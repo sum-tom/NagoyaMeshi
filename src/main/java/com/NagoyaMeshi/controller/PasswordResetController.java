@@ -1,6 +1,6 @@
 package com.NagoyaMeshi.controller;
-
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,26 +26,26 @@ public class PasswordResetController {
     }
 
     @GetMapping("/reset")//パスワードリセットフォームの表示
-    public String showResetForm(@RequestParam("token") String token, RedirectAttributes redirectAttributes) {
+    public String showResetForm(@RequestParam("token") String token, Model model) {
         String result = tokenService.validatePasswordResetToken(token);
         if (!result.equals("valid")) {
-        	redirectAttributes.addFlashAttribute("error", "トークンが期限切れ");
-            return "redirect:/password-reset/request?error=true";
+            model.addAttribute("error", "トークンが期限切れです。");
+            return "password-reset/error"; // エラーを表示するビューを指定
         }
-        redirectAttributes.addFlashAttribute("token", token);
+        model.addAttribute("token", token);
         return "password-reset/reset";
     }
 
     @PostMapping("/reset")//パスワードのリセット
-    public String resetPassword(@RequestParam("token") String token, @RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword, RedirectAttributes redirectAttributes) {
+    public String resetPassword(@RequestParam("token") String token, @RequestParam("password") String password, @RequestParam("confirmPassword") String confirmPassword, Model model) {
         if (!password.equals(confirmPassword)) {
-        	redirectAttributes.addFlashAttribute("error", "Passwords do not match.");
+        	model.addAttribute("error", "Passwords do not match.");
             return "redirect:/password-reset/reset?error=true&token=" + token;
         }
 
         boolean resetResult = userService.resetPassword(token, password);
         if (!resetResult) {
-        	redirectAttributes.addFlashAttribute("error", "パスワードのリセットに失敗しました");
+        	model.addAttribute("error", "パスワードのリセットに失敗しました");
             return "redirect:/password-reset/reset?error=true&token=" + token;
         }
 
@@ -75,27 +75,3 @@ public class PasswordResetController {
     
 }
 
-//@Controller
-//public class PasswordResetController {
-//
-//    private final EmailService emailService;
-//
-//    public PasswordResetController(EmailService emailService) {
-//        this.emailService = emailService;
-//        
-//    }
-//
-//   
-//    @GetMapping("/password-reset/request")
-//    public String request() {
-//        return "/password-reset/request";
-//    }   
-//
-//    @PostMapping("/password-reset/request")
-//    public String sendEmail(@RequestParam String email) {
-//        String link = "http://localhost:8080/password-reset/reset";
-//        String message = "リンクをクリックしてください: " + link;
-//        emailService.sendPasswordResetEmail(email, "リンク付きメール", message);
-//        return "redirect:/password-reset/request?success=true";
-//    }
-//}

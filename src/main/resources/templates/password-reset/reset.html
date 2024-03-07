@@ -17,15 +17,19 @@
     </div>
 
     <form th:action="@{/password-reset/reset}" method="post">
-        <label for="password">New Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <label for="confirmPassword">Confirm Password:</label>
-        <input type="password" id="confirmPassword" name="confirmPassword" required>
-        
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<label for="password">新しいパスワード:</label>
+		<input type="password" id="password" name="password" required>
+		
+		<label for="confirmPassword">パスワードの確認:</label>
+		<input type="password" id="confirmPassword" name="confirmPassword" required>
+		
+<!--		 CSRF Token -->
+<!--		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />-->
+		
+		<!-- パスワードリセットトークン -->
+		<input type="hidden" name="token" th:value="${token}" />
 
-        <button type="submit">Reset Password</button>
-    </form>
+    	<button type="submit">パスワードをリセットする</button>
+	</form>
 </body>
 </html>
