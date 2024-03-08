@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Customer;
+import com.stripe.model.PaymentMethod;
 import com.stripe.model.Subscription;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.CustomerListParams;
 import com.stripe.param.CustomerUpdateParams;
+import com.stripe.param.PaymentMethodListParams;
 import com.stripe.param.SubscriptionCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 
 import jakarta.annotation.PostConstruct;
-
 @Service
 public class StripeService {
 
@@ -89,6 +90,34 @@ public class StripeService {
                 .build();
 
         return Session.create(params);
+    }
+    
+    public Subscription subscribeCustomerToPlan(String email, String token, String planId) throws StripeException {
+        Customer customer = createOrUpdateCustomer(email, token);
+        SubscriptionCreateParams params = SubscriptionCreateParams.builder()
+                .setCustomer(customer.getId())
+                .addItem(SubscriptionCreateParams.Item.builder().setPlan(planId).build())
+                .build();
+        return Subscription.create(params);
+    }
+    
+    public Subscription createSubscription(String email, String token, String planId) throws StripeException {
+        Customer customer = createOrUpdateCustomer(email, token);
+        SubscriptionCreateParams params = SubscriptionCreateParams.builder()
+                .setCustomer(customer.getId())
+                .addItem(SubscriptionCreateParams.Item.builder()
+                        .setPrice("price_1OrL8BFrWKO0sh5QVYNAvvws")
+                        .build())
+                .build();
+        return Subscription.create(params);
+    }
+    
+    public List<PaymentMethod> getPaymentMethods(String customerId) throws StripeException {
+        PaymentMethodListParams params = PaymentMethodListParams.builder()
+                .setCustomer(customerId)
+                .setType(PaymentMethodListParams.Type.CARD)
+                .build();
+        return PaymentMethod.list(params).getData();
     }
     
 }

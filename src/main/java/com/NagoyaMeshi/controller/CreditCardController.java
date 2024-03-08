@@ -1,9 +1,12 @@
 package com.NagoyaMeshi.controller;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,7 +15,7 @@ import com.NagoyaMeshi.entity.StripeCustomer;
 import com.NagoyaMeshi.entity.User;
 import com.NagoyaMeshi.service.StripeService;
 import com.stripe.exception.StripeException;
-import com.stripe.model.Customer;
+import com.stripe.model.PaymentMethod;
 
 @Controller
 public class CreditCardController {
@@ -30,12 +33,19 @@ public class CreditCardController {
             }
             // StripeCustomerエンティティからStripeの顧客IDを取得
             String stripeCustomerId = stripeCustomer.getStripeCustomerId();
-            Customer customer = stripeService.getCustomer(stripeCustomerId);
-            model.addAttribute("customer", customer);
-            return "creditCardDetails"; // クレジットカード情報を表示するHTMLビュー
+
+            // 顧客IDに紐づく支払い方法のリストを取得
+            List<PaymentMethod> paymentMethods = stripeService.getPaymentMethods(stripeCustomerId);
+
+            // モデルに顧客と支払い方法のリストを追加
+            model.addAttribute("paymentMethods", paymentMethods);
+
+            // クレジットカード情報を表示するHTMLビューへ
+            return "creditCardDetails";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-            return "error"; // エラーを表示するHTMLビュー
+            // エラーを表示するHTMLビューへ
+            return "error";
         }
     }
     
@@ -62,5 +72,22 @@ public class CreditCardController {
         }
     }
     
+    @ControllerAdvice
+    public class GlobalExceptionHandler {
+
+        @ExceptionHandler(value = StripeException.class)
+        public String handleStripeException(StripeException e, Model model) {
+            // Stripeのエラーをハンドル
+            model.addAttribute("error", "Payment processing error: " + e.getMessage());
+            return "error";
+        }
+
+        @ExceptionHandler(value = Exception.class)
+        public String handleException(Exception e, Model model) {
+            // その他のエラーをハンドル
+            model.addAttribute("error", "An error occurred: " + e.getMessage());
+            return "error";
+        }
+    }
     
 }

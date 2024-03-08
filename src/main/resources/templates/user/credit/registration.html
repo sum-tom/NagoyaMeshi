@@ -20,7 +20,10 @@
 		      <button type="submit">支払う</button>
 		      <div id="card-errors" role="alert"></div>
 		    </form>
-		    
+		    <!-- エラーページ -->
+<div th:if="${error != null}">
+    <p th:text="${error}"></p>
+</div>
 		<script>
 		   var stripe = Stripe('pk_test_51OHnhDFrWKO0sh5Q0j7HKztqZI544e306rcG7lUHW4pVDuUHtGVuEuaq8TAyecDfD0MgEOqkAOoD5Xr8TIAShBS300DQWbg3Fn');
 		   var elements = stripe.elements();

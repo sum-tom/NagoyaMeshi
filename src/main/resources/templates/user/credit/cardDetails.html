@@ -9,21 +9,23 @@
     <h1>Credit Card Information</h1>
 
     <!-- クレジットカード情報の表示 -->
-    <div th:if="${customer != null}">
-        <h2>Card Details</h2>
-        <!-- Stripeの顧客オブジェクトからデフォルトの支払い方法を取得して表示 -->
-        <div th:each="card : ${customer.sources.data}">
-            <p>Card Brand: <span th:text="${card.brand}">Brand</span></p>
-            <p>Last 4 Digits: <span th:text="${card.last4}">1234</span></p>
-            <p>Expiration Date: <span th:text="${card.exp_month}">MM</span>/<span th:text="${card.exp_year}">YYYY</span></p>
-        </div>
+    <div th:if="${paymentMethods != null}">
+    <h2>Card Details</h2>
+    <div th:each="method : ${paymentMethods}">
+        <p>Card Brand: <span th:text="${method.card.brand}">Brand</span></p>
+        <p>Last 4 Digits: <span th:text="${method.card.last4}">1234</span></p>
+        <p>Expiration Date: <span th:text="${method.card.expMonth}">MM</span>/<span th:text="${method.card.expYear}">YYYY</span></p>
     </div>
+</div>
 
     <div th:if="${customer == null}">
         <p>No credit card information available.</p>
     </div>
 
     <!-- その他のコンテンツやリンクなど -->
-
+<!-- エラーページ -->
+<div th:if="${error != null}">
+    <p th:text="${error}"></p>
+</div>
 </body>
 </html>
